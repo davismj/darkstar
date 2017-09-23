@@ -19,15 +19,15 @@ end;
 function onTrigger(player, unlockId, target)
 
     -- validate unlockId
-    local wsName;
     if (unlockId == nil) then
         error(player, "You must provide an unlock_id");
         return;
     elseif (tonumber(unlockId) ~= nil) then
         unlockId = tonumber(unlockId);
-    elseif (unlockId < 0 or unlockId > 48) then -- TODO pull from weapon_skills table if possible rather than hardcoding
-        error(player, "unlock_id out of range");
-        return;        
+        if (unlockId < 0 or unlockId > 48) then -- TODO pull from weapon_skills table if possible rather than hardcoding
+            error(player, "unlock_id out of range");
+            return;
+        end
     end
 
     -- validate target
@@ -43,6 +43,5 @@ function onTrigger(player, unlockId, target)
     end
 
     -- add weaponskill
-    targ:addLearnedWeaponskill(unlockId, questId);
-    --player:PrintToPlayer(string.format("Player %p learned %w.", targ:getName(),));
+    targ:addLearnedWeaponskill(unlockId);
 end;
