@@ -42,7 +42,7 @@ function onTrigger(player, unlockId, target)
         end
     end
 
-    -- add quest
+    -- add weaponskill
     targ:addLearnedWeaponskill(unlockId, questId);
     --player:PrintToPlayer(string.format("Player %p learned %w.", targ:getName(),));
 end;

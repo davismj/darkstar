@@ -13,7 +13,7 @@ cmdprops =
 
 function error(player, msg)
     player:PrintToPlayer(msg);
-    player:PrintToPlayer("!addlearnedweaponskill <unlock_id> {player}");
+    player:PrintToPlayer("!dellearnedweaponskill <unlock_id> {player}");
 end;
 
 function onTrigger(player, unlockId, target)
@@ -42,7 +42,7 @@ function onTrigger(player, unlockId, target)
         end
     end
 
-    -- add quest
+    -- add weaponskill
     targ:delLearnedWeaponskill(unlockId, questId);
     --player:PrintToPlayer(string.format("Player %p learned %w.", targ:getName(),));
 end;
