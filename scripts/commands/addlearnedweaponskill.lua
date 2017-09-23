@@ -8,7 +8,7 @@ require("scripts/globals/quests");
 cmdprops =
 {
     permission = 1,
-    parameters = "sss"
+    parameters = "ss"
 };
 
 function error(player, msg)
