@@ -2,17 +2,19 @@
 
 -- General Texts
    ITEM_CANNOT_BE_OBTAINED = 6587; -- Come back after sorting your inventory.
-             ITEM_OBTAINED = 6593; -- Obtained:
-              GIL_OBTAINED = 6594; -- Obtainedgil.
-          KEYITEM_OBTAINED = 6596; -- Obtained key item: <<<Unknown Parameter (Type: 80) 1>>>.
-              KEYITEM_LOST = 6597; -- Lost key item:
-
--- Other Dialog
-TOMBSTONE = 7169; -- Here lies the beloved Queen Leaute. May Her Majesty's soul find Paradise.
+             ITEM_OBTAINED = 6592; -- Obtained:
+              GIL_OBTAINED = 6593; -- Obtainedgil.
+          KEYITEM_OBTAINED = 6595; -- Obtained key item: <<<Unknown Parameter (Type: 80) 1>>>.
+              KEYITEM_LOST = 6596; -- Lost key item:
 
 -- Mission dialog
-HALVER_OFFSET = 6790; -- The princess is always speaking of your deeds for the Kingdom. Everyone here is counting on you,
+HALVER_OFFSET = 6789; -- The princess is always speaking of your deeds for the Kingdom. Everyone here is counting on you,
+ 
+-- Quest dialog
+SAVAGE_BLADE_LEARNED = 7936;-- You have learned the weapon skill “Savage Blade”!
+
+-- Other Dialog
+TOMBSTONE = 7168; -- Here lies the beloved Queen Leaute. May Her Majesty's soul find Paradise.
 
 -- Conquest Base
-
-CONQUEST_BASE = 6876; -- Tallying conquest results...
+CONQUEST_BASE = 6875; -- Tallying conquest results...

@@ -10,7 +10,7 @@
              HOMEPOINT_SET = 6634; -- Home point set!
     FISHING_MESSAGE_OFFSET = 7090; -- You can't fish here.
              IMAGE_SUPPORT = 7194; -- Your <craft> skills went up <a little|ever so slightly| ever so slightly>...
-       NO_MORE_GP_ELIGIBLE = 7233; -- You are not eligible to receive guild points at this time.
+       NO_MORE_GP_ELIGIBLE = 7223; -- You are not eligible to receive guild points at this time.
   GUILD_TERMINATE_CONTRACT = 7208; -- You have terminated your trading contract with the <old craft> Guild and formed a new one with the <new craft> Guild
         GUILD_NEW_CONTRACT = 7216; -- You have formed a new trading contract with the <craft> Guild
                GP_OBTAINED = 7228; -- Obtained: ?Numeric Parameter 0? guild points.
