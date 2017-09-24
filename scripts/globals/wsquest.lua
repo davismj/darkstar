@@ -9,10 +9,12 @@ WSQUESTS =
     --------------------------------------
     ['theWallsOfYourMind'] =
     {
+        ['questName'] = 'The Walls Of Your Mind',
         ['skillId'] = SKILL_H2H,
         ['minSkill'] = 250,
         ['wsUnlockId'] = 1,
-        ['trialWeaponId'] = 17507, -- 'Knuckles of Trials'
+        ['trialWeaponName'] = 'Knuckles of Trials',
+        ['trialWeaponId'] = 17507,
         ['logId'] = BASTOK,
         ['questId'] = THE_WALLS_OF_YOUR_MIND,
         ['fameRegion'] = BASTOK,
@@ -40,10 +42,12 @@ WSQUESTS =
     ------------------------------------
     ['cloakAndDagger'] =
     {
+        ['questName'] = 'Cloak and Dagger',
         ['skillId'] = SKILL_DAG,
         ['minSkill'] = 230,
         ['wsUnlockId'] = 2,
-        ['trialWeaponId'] = 17616, -- 'Dagger of Trials'
+        ['trialWeaponName'] = 'Dagger of Trials',
+        ['trialWeaponId'] = 17616,
         ['logId'] = OUTLANDS,
         ['questId'] = CLOAK_AND_DAGGER,
         ['fameRegion'] = KAZHAM,
@@ -71,10 +75,12 @@ WSQUESTS =
     ----------------------------------------
     ['oldWounds'] =
     {
+        ['questName'] = 'Old Wounds',
         ['skillId'] = SKILL_SWD,
         ['minSkill'] = 240,
         ['wsUnlockId'] = 3,
-        ['trialWeaponId'] = 17654, -- 'Sapara of Trials'
+        ['trialWeaponName'] = 'Sapara of Trials',
+        ['trialWeaponId'] = 17654,
         ['logId'] = SANDORIA,
         ['questId'] = OLD_WOUNDS,
         ['fameRegion'] = SANDORIA,
