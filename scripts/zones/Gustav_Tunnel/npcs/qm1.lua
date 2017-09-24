@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Gustav tunnel
---  NPC: qm2 (???)
+--  NPC: qm1 (???)
 -- Quests: Cloak and Dagger (Evisceration WSNM "Baronial Bat")
 -- !pos 52.8, -1, 19.9 (212)
 -----------------------------------
@@ -24,6 +24,7 @@ function onTrigger(player,npc)
             if not(player:hasKeyItem(ANNALS_OF_TRUTH)) then
                 player:addKeyItem(ANNALS_OF_TRUTH);
                 player:messageSpecial(KEYITEM_OBTAINED,ANNALS_OF_TRUTH);
+            end
         elseif (GetMobAction(baronialBat) == 0) then
             SpawnMob(baronialBat):updateClaim(player);
         end
