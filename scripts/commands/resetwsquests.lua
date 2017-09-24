@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------------------------
 -- func: resetwsquests {player}
--- desc: Deletes all known WSquests and associated items/keyitems for the GM or target player.
+-- desc: Deletes all known WSquests and associated items/keyitems/WSes for the GM or target player.
 ---------------------------------------------------------------------------------------------------
 
 require("scripts/globals/status");
@@ -33,26 +33,37 @@ function onTrigger(player)
         end
     end
 
+    -- Store a table of deleted stuff for nicer output.
+    local DELETED = {
+        ['quests'] = {},
+        ['items'] = {},
+        ['keyItems'] = {},
+        --['weaponSkills'] = {},
+    };
 
     for quest,questData in pairs(WSQUESTS) do
         local logId = questData.logId;
         local questId = questData.questId;
         local itemId = questData.trialWeaponId;
 
-        -- Forget weaponskill
-        targ:delLearnedWeaponskill(questData.wsUnlockId);
-
         -- Delete WSquest if flagged or completed
         if (targ:getQuestStatus(logId, questId) ~= QUEST_AVAILABLE) then
             targ:delQuest(logId, questId);
-            player:PrintToPlayer(string.format("Quest: %s removed from %s.", questData.questName, targ:getName()));
+            table.insert(DELETED.quests, 1, questData.questName);
         end
+
+        -- Forget weaponskill if learned
+        -- TODO include deleted weaponskills in the output. hasWeaponSkill() appears to be broken.
+        -- if (targ:hasWeaponSkill(questData.wsId)) then
+            targ:delLearnedWeaponskill(questData.wsUnlockId);
+        --     table.insert(DELETED.weaponSkills, 1, questData.wsName);
+        -- end
 
         -- Delete leftover trial weapon
         for i = LOC_INVENTORY, LOC_WARDROBE4 do -- inventory locations enums
             if (targ:hasItem(itemId, i)) then
                 targ:delItem(itemId, 1, i);
-                player:PrintToPlayer(string.format("Item: %s removed from %s.", questData.trialWeaponName, targ:getName()));
+                table.insert(DELETED.items, 1, questData.trialWeaponName);
                 break;
             end
         end
@@ -69,10 +80,18 @@ function onTrigger(player)
             require(TextIDs);
             targ:delKeyItem( keyId );
             --targ:messageSpecial(KEYITEM_OBTAINED + 1, keyId);
-            player:PrintToPlayer(string.format("Key item: %i deleted from %s.", keyId, targ:getName()));
+            table.insert(DELETED.keyItems, 1, keyId);
         end
     end
 
-    player:PrintToPlayer(string.format("Finished resetting Weapon Skill quests for %s.", targ:getName()));
+    -- Print a report of everything that was removed.
+    player:PrintToPlayer(string.format(
+        "Deleted Quests: %s\nDeleted Items: %s\nDeleted Key Items: %s",
+        table.concat(DELETED.quests, ", "),
+        table.concat(DELETED.items, ", "),
+        table.concat(DELETED.keyItems, ", ")
+        -- table.concat(DELETED.weaponSkills, ", "),
+        ));
+    player:PrintToPlayer(string.format("Finished resetting Weapon Skill quests for %s.",targ:getName()));
 
 end;
