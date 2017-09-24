@@ -1,15 +1,18 @@
 -----------------------------------
 -- Area: Chateau d'Oraguille
 -- NPC:  Curilla
--- Starts and Finishes Quest: The General's Secret, Enveloped in Darkness, Peace for the Spirit, Lure of the Wildcat (San d'Oria)
--- !pos 27 0.1 0.1 233
+-- Starts and Finishes Quest: The General's Secret, Enveloped in Darkness, Peace for the Spirit, Lure of the Wildcat (San d'Oria), Old Wounds
+-- !pos 27 0.1 0.1 (233)
 -----------------------------------
 package.loaded["scripts/zones/Chateau_dOraguille/TextIDs"] = nil;
 -----------------------------------
 require("scripts/globals/settings");
 require("scripts/globals/keyitems");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
 require("scripts/zones/Chateau_dOraguille/TextIDs");
+
+WSQUEST = WSQUESTS.oldWounds;
 
 -----------------------------------
 -- onTrade Action
@@ -17,10 +20,12 @@ require("scripts/zones/Chateau_dOraguille/TextIDs");
 
 function onTrade(player,npc,trade)
 
-    if (player:getQuestStatus(SANDORIA,FLYERS_FOR_REGINE) == QUEST_ACCEPTED) then
-        if (trade:hasItemQty(532,1) and trade:getItemCount() == 1) then -- Trade Magicmart_flyer
-            player:messageSpecial(FLYER_REFUSED);
-        end
+    if (player:getQuestStatus(SANDORIA,FLYERS_FOR_REGINE) == QUEST_ACCEPTED 
+            and trade:hasItemQty(532,1) 
+            and trade:getItemCount() == 1) then -- Trade Magicmart_flyer
+        player:messageSpecial(FLYER_REFUSED);
+    else
+        handleWsQuestTrade(WSQUEST, player, trade);
     end
 
 end;
@@ -67,7 +72,10 @@ function onTrigger(player,npc)
     elseif (peaceForTheSpirit == QUEST_COMPLETED) then
         player:startEvent(0x0034); -- Standard dialog after Peace of the spirit
     else
-        player:startEvent(0x0212); -- Standard dialog
+        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
+        if (wsEventStarted == false) then
+            player:startEvent(0x0212); -- Standard dialog
+        end
     end
 
 end;
@@ -86,8 +94,8 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
-    -- printf("RESULT: %u",option);
+    --printf("CSID: %u",csid);
+    --printf("RESULT: %u",option);
 
     if (csid == 0x0037 and option == 1) then
         player:addQuest(SANDORIA,THE_GENERAL_S_SECRET)
@@ -114,6 +122,8 @@ function onEventFinish(player,csid,option)
         player:setVar("needs_crawler_blood",1);
     elseif (csid == 0x0232) then
         player:setMaskBit(player:getVar("WildcatSandy"),"WildcatSandy",15,true);
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 
 end;

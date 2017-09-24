@@ -2,21 +2,19 @@
 -- Area: Kazham
 -- NPC:  Jakoh Wahcondalo
 -- Starts and Finishes Quest: Cloak And Dagger
--- !pos 101 -16 -115 250
+-- !pos 101 -16 -115 (250)
 -----------------------------------
 package.loaded["scripts/zones/Kazham/TextIDs"] = nil;
 -----------------------------------
-
-require("scripts/globals/quests"); 
 require("scripts/globals/missions");
-require("scripts/zones/Kazham/TextIDs");
 require("scripts/globals/wsquest");
+require("scripts/zones/Kazham/TextIDs");
+
+WSQUEST = WSQUESTS.cloakAndDagger;
 
 -----------------------------------
 -- onTrade Action
 -----------------------------------
-
-WSQUEST = WSQUESTS.cloakAndDagger;
 
 function onTrade(player,npc,trade)
     handleWsQuestTrade(WSQUEST, player, trade);
@@ -66,7 +64,6 @@ function onEventFinish(player,csid,option)
         player:addMission(ZILART,THE_TEMPLE_OF_UGGALEPIH);
     elseif (csid == 0x0109) then
         player:setVar("MissionStatus",3);
-    -- Cloak and Dagger
     else
         handleWsQuestFinish(WSQUEST, player, csid, option);
     end

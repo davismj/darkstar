@@ -1,16 +1,18 @@
 -----------------------------------
 -- Area: Port Bastok
 -- NPC:  Oggbi
--- Starts and Finishes: Ghosts of the Past, The First Meeting
--- @zone 236
--- !pos -159 -7 5
+-- Starts and Finishes: Ghosts of the Past, The First Meeting, The Walls of Your Mind
+-- !pos -159 -7 5 (236)
 -----------------------------------
 package.loaded["scripts/zones/Port_Bastok/TextIDs"] = nil;
 -----------------------------------
 require("scripts/globals/settings");
 require("scripts/globals/keyitems");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
 require("scripts/zones/Port_Bastok/TextIDs");
+
+WSQUEST = WSQUESTS.theWallsOfYourMind;
 
 -----------------------------------
 -- onTrade Action
@@ -18,10 +20,12 @@ require("scripts/zones/Port_Bastok/TextIDs");
 
 function onTrade(player,npc,trade)
 
-    if (player:getQuestStatus(BASTOK,GHOSTS_OF_THE_PAST) == QUEST_ACCEPTED) then
-        if (trade:hasItemQty(13122,1) and trade:getItemCount() == 1) then -- Trade Miner's Pendant
-            player:startEvent(0x00e8); -- Finish Quest "Ghosts of the Past"
-        end
+    if (player:getQuestStatus(BASTOK,GHOSTS_OF_THE_PAST) == QUEST_ACCEPTED
+            and (trade:hasItemQty(13122,1) 
+            and trade:getItemCount() == 1)) then -- Trade Miner's Pendant
+        player:startEvent(0x00e8); -- Finish Quest "Ghosts of the Past"
+    else
+        handleWsQuestTrade(WSQUEST, player, trade);
     end
 
 end;
@@ -44,7 +48,10 @@ function onTrigger(player,npc)
     elseif (player:hasKeyItem(LETTER_FROM_DALZAKK) and player:hasKeyItem(SANDORIAN_MARTIAL_ARTS_SCROLL)) then
         player:startEvent(0x00ea); -- Finish Quest "The First Meeting"
     else
-        player:startEvent(0x00e6); -- Standard Dialog
+        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
+        if (wsEventStarted == false) then
+            player:startEvent(0x00e6); -- Standard Dialog
+        end
     end
 
 end;
@@ -92,6 +99,8 @@ function onEventFinish(player,csid,option)
             player:addFame(BASTOK,AF2_FAME);
             player:completeQuest(BASTOK,THE_FIRST_MEETING);
         end
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 
 end;
