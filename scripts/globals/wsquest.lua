@@ -121,7 +121,7 @@ function handleWsQuestTrigger(quest, player)
         if (player:hasKeyItem(ANNALS_OF_TRUTH)) then
             player:startEvent(quest.eventIds.finish); -- WS Quest completed (WSNM killed)
             return true;
-        elseif (player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH) and not(quest.eventIds.cont2 == nil)) then
+        elseif (player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH) and (quest.eventIds.cont2 ~= nil)) then
             player:startEvent(quest.eventIds.cont2); -- WS Quest ongoing stage 2 (traded finished weapon but have not killed NM)
             return true;
         elseif (not (player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH))) then
