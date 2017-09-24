@@ -34,20 +34,21 @@ function onTrigger(player)
     end
 
 
-    -- Delete weaponskill quests and remove all associated trial weapons and key items
     for quest,questData in pairs(WSQUESTS) do
-
         local logId = questData.logId;
         local questId = questData.questId;
         local itemId = questData.trialWeaponId;
 
-        -- Delete any WSquest that is flagged or completed
+        -- Forget weaponskill
+        targ:delLearnedWeaponskill(questData.wsUnlockId);
+
+        -- Delete WSquest if flagged or completed
         if (targ:getQuestStatus(logId, questId) ~= QUEST_AVAILABLE) then
             targ:delQuest(logId, questId);
             player:PrintToPlayer(string.format("Quest: %s removed from %s.", questData.questName, targ:getName()));
         end
 
-        -- Delete any leftover trial weapons
+        -- Delete leftover trial weapon
         for i = LOC_INVENTORY, LOC_WARDROBE4 do -- inventory locations enums
             if (targ:hasItem(itemId, i)) then
                 targ:delItem(itemId, 1, i);
