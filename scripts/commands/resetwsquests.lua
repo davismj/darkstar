@@ -19,7 +19,7 @@ function error(player, msg)
     player:PrintToPlayer("!resetwsquests {player}");
 end;
 
-function onTrigger(player)
+function onTrigger(player, target)
 
     -- validate target
     local targ;
@@ -38,7 +38,7 @@ function onTrigger(player)
         ['quests'] = {},
         ['items'] = {},
         ['keyItems'] = {},
-        --['weaponSkills'] = {},
+        ['weaponSkills'] = {},
     };
 
     for quest,questData in pairs(WSQUESTS) do
@@ -53,8 +53,7 @@ function onTrigger(player)
         end
 
         -- Forget weaponskill if learned
-        -- TODO include deleted weaponskills in the output. hasWeaponSkill() appears to be broken.
-        -- if (targ:hasWeaponSkill(questData.wsId)) then
+        -- if (targ:hasLearnedWeaponSkill(questData.wsUnlockId)) then
             targ:delLearnedWeaponskill(questData.wsUnlockId);
         --     table.insert(DELETED.weaponSkills, 1, questData.wsName);
         -- end
@@ -86,11 +85,10 @@ function onTrigger(player)
 
     -- Print a report of everything that was removed.
     player:PrintToPlayer(string.format(
-        "Deleted Quests: %s\nDeleted Items: %s\nDeleted Key Items: %s",
+        "Deleted\n Quests: %s\n Items: %s\n KeyItems: %s", --\n WS: %s",
         table.concat(DELETED.quests, ", "),
         table.concat(DELETED.items, ", "),
-        table.concat(DELETED.keyItems, ", ")
-        -- table.concat(DELETED.weaponSkills, ", "),
+        table.concat(DELETED.keyItems, ", ")--,table.concat(DELETED.weaponSkills, ", ")
         ));
     player:PrintToPlayer(string.format("Finished resetting Weapon Skill quests for %s.",targ:getName()));
 
