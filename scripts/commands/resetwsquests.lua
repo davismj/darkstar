@@ -38,7 +38,7 @@ function onTrigger(player, target)
         ['quests'] = {},
         ['items'] = {},
         ['keyItems'] = {},
-        ['weaponSkills'] = {},
+        -- ['weaponSkills'] = {},
     };
 
     for quest,questData in pairs(WSQUESTS) do
@@ -85,10 +85,12 @@ function onTrigger(player, target)
 
     -- Print a report of everything that was removed.
     player:PrintToPlayer(string.format(
-        "Deleted\n Quests: %s\n Items: %s\n KeyItems: %s", --\n WS: %s",
+        "Deleted\n Quests: %s\n Items: %s\n KeyItems: %s",
+        --"Deleted\n Quests: %s\n Items: %s\n KeyItems: %s\n WS: %s",
         table.concat(DELETED.quests, ", "),
         table.concat(DELETED.items, ", "),
-        table.concat(DELETED.keyItems, ", ")--,table.concat(DELETED.weaponSkills, ", ")
+        table.concat(DELETED.keyItems, ", ")
+        --,table.concat(DELETED.weaponSkills, ", ")
         ));
     player:PrintToPlayer(string.format("Finished resetting Weapon Skill quests for %s.",targ:getName()));
 
