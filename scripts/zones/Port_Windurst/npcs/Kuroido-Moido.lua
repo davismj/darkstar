@@ -1,9 +1,9 @@
 -----------------------------------
 -- Area: Port Windurst
---  NPC: Kuriodo-Moido
+-- NPC: Kuriodo-Moido
+-- Starts and Finishes Quests: Making Amens!, Orastery Woes
 -- Involved In Quest: Making Amends, Wonder Wands
---  Starts and Finishes: Making Amens!
---    Working 100%
+-- !pos -115 -3 104
 -----------------------------------
 package.loaded["scripts/zones/Port_Windurst/TextIDs"] = nil;
 -----------------------------------
@@ -12,13 +12,17 @@ require("scripts/globals/quests");
 require("scripts/globals/settings");
 require("scripts/globals/titles");
 require("scripts/globals/keyitems");
+require("scripts/globals/wsquest");
 require("scripts/zones/Port_Windurst/TextIDs");
+
+WSQUEST = WSQUESTS.orasteryWoes;
 
 -----------------------------------
 -- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
+    handleWsQuestTrade(WSQUEST, player, trade);
 end;
 
 -----------------------------------
@@ -26,14 +30,17 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
-    MakingAmends = player:getQuestStatus(WINDURST,MAKING_AMENDS); --First quest in series
-    MakingAmens = player:getQuestStatus(WINDURST,MAKING_AMENS); --Second quest in series
-    WonderWands = player:getQuestStatus(WINDURST,WONDER_WANDS); --Third and final quest in series
-    pfame = player:getFameLevel(WINDURST);
-    needToZone = player:needToZone();    
-    BrokenWand = player:hasKeyItem(128);
+    local MakingAmends = player:getQuestStatus(WINDURST,MAKING_AMENDS); --First quest in series
+    local MakingAmens = player:getQuestStatus(WINDURST,MAKING_AMENS); --Second quest in series
+    local WonderWands = player:getQuestStatus(WINDURST,WONDER_WANDS); --Third and final quest in series
+    local pfame = player:getFameLevel(WINDURST);
+    local BrokenWand = player:hasKeyItem(128);
+    needToZone = player:needToZone();
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Black Halo
     
-    if (MakingAmends == QUEST_ACCEPTED) then -- MAKING AMENDS: During Quest
+    if (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
+    elseif (MakingAmends == QUEST_ACCEPTED) then -- MAKING AMENDS: During Quest
         player:startEvent(0x0114); 
     elseif (MakingAmends == QUEST_COMPLETED and MakingAmens ~= QUEST_COMPLETED and WonderWands ~= QUEST_COMPLETED and needToZone) then -- MAKING AMENDS: After Quest  
         player:startEvent(0x0117); 
@@ -104,8 +111,7 @@ function onEventFinish(player,csid,option)
         player:messageSpecial(GIL_OBTAINED,GIL_RATE*6000);
         player:addFame(WINDURST,150);
         player:completeQuest(WINDURST,MAKING_AMENS);
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 end;
-
-
-

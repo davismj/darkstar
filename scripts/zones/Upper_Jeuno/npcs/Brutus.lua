@@ -1,22 +1,26 @@
 -----------------------------------
 -- Area: Upper Jeuno
 -- NPC: Brutus
--- Starts Quest: Chocobo's Wounds, Save My Son, Path of the Beastmaster, Wings of gold, Scattered into Shadow, Chocobo on the Loose!
+-- Starts Quest: Chocobo's Wounds, Save My Son, Path of the Beastmaster, Wings of gold, Scattered into Shadow, Chocobo on the Loose!, Axe The Competition
 -- !pos -55 8 95 244
 -----------------------------------
 package.loaded["scripts/zones/Upper_Jeuno/TextIDs"] = nil;
 -----------------------------------
-require("scripts/zones/Upper_Jeuno/TextIDs");
 require("scripts/globals/settings");
 require("scripts/globals/titles");
 require("scripts/globals/keyitems");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
+require("scripts/zones/Upper_Jeuno/TextIDs");
+
+WSQUEST = WSQUESTS.axeTheCompetition;
 
 -----------------------------------
 -- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
+    handleWsQuestTrade(WSQUEST, player, trade);
 end;
 
 -----------------------------------
@@ -25,12 +29,13 @@ end;
 
 function onTrigger(player,npc)
 
-    local chocoboOnTheLoose = player:getQuestStatus(JEUNO,CHOCOBO_ON_THE_LOOSE);
+    local chocoboOnTheLoose = player:getQuestStatus(JEUNO,CHOCOBO_ON_THE_LOOSE); -- Chocobo Egg
     local chocoboOnTheLooseStatus = player:getVar("ChocoboOnTheLoose");
-    local ChocobosWounds = player:getQuestStatus(JEUNO,CHOCOBO_S_WOUNDS);
+    local ChocobosWounds = player:getQuestStatus(JEUNO,CHOCOBO_S_WOUNDS); -- Chocobo License
     local saveMySon = player:getQuestStatus(JEUNO,SAVE_MY_SON);
-    local wingsOfGold = player:getQuestStatus(JEUNO,WINGS_OF_GOLD);
-    local scatIntoShadow = player:getQuestStatus(JEUNO,SCATTERED_INTO_SHADOW);
+    local wingsOfGold = player:getQuestStatus(JEUNO,WINGS_OF_GOLD); -- BST AF1
+    local scatIntoShadow = player:getQuestStatus(JEUNO,SCATTERED_INTO_SHADOW); -- BST AF2
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Decimation
 
     local mLvl = player:getMainLvl();
     local mJob = player:getMainJob();
@@ -59,6 +64,8 @@ function onTrigger(player,npc)
         else
             player:startEvent(0x0066);
         end
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     elseif (ChocobosWounds == QUEST_COMPLETED and saveMySon == QUEST_AVAILABLE) then
         player:startEvent(0x0016);
     elseif (saveMySon == QUEST_COMPLETED and player:getQuestStatus(JEUNO,PATH_OF_THE_BEASTMASTER) == QUEST_AVAILABLE) then
@@ -96,12 +103,13 @@ function onTrigger(player,npc)
         elseif (scatIntoShadowCS == 2) then
             player:startEvent(0x0087);
         end
+    -- Default dialogue (Changes based on quest completion)
     elseif (scatIntoShadow == QUEST_COMPLETED) then
         player:startEvent(0x0097);
     elseif (player:getQuestStatus(JEUNO,PATH_OF_THE_BEASTMASTER) == QUEST_COMPLETED) then
         player:startEvent(0x0014);
     else
-        player:startEvent(0x0042, player:getMainLvl());
+        player:startEvent(0x0042, mJob);
     end
 end;
 
@@ -119,7 +127,7 @@ end;
 -----------------------------------
 
 function onEventFinish(player,csid,option)
-    -- printf("CSID: %u",csid);
+    printf("CSID: %u",csid);
     -- printf("RESULT: %u",option);
 
     if (csid == 0x276D) then
@@ -185,5 +193,7 @@ function onEventFinish(player,csid,option)
             player:addFame(JEUNO,AF2_FAME);
             player:completeQuest(JEUNO,SCATTERED_INTO_SHADOW);
         end
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 end;

@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Windurst Woods
---  NPC: Parih Vashai
--- Starts and Finishes Quest: The Fanged One
+--  NPC: Perih Vashai
+-- Starts Quests: The Fanged One, Sin Hunting, Fire and Brimestone, Unbridled Passion, From Saplings Grow
 -- !pos 117 -3 92 241
 -----------------------------------
 package.loaded["scripts/zones/Windurst_Woods/TextIDs"] = nil;
@@ -12,6 +12,9 @@ require("scripts/globals/keyitems");
 require("scripts/globals/missions");
 require("scripts/globals/titles");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
+
+WSQUEST = WSQUESTS.fromSaplingsGrow;
 
 -----------------------------------
 -- onTrade Action
@@ -21,10 +24,11 @@ function onTrade(player,npc,trade)
 
     if (trade:hasItemQty(1113,1) and trade:getItemCount() == 1) then -- Trade old earring (complete Rng AF2 quest) -- oldEarring
         local FireAndBrimstoneCS = player:getVar("fireAndBrimstone");
-
         if (FireAndBrimstoneCS == 5) then
             player:startEvent(0x0219, 0, 13360); -- twinstoneEarring
         end
+    else
+        handleWsQuestTrade(WSQUEST, player, trade);
     end
 
 end;
@@ -46,15 +50,17 @@ function onTrigger(player,npc)
     local UnbridledPassion = player:getQuestStatus(WINDURST,UNBRIDLED_PASSION);-- RNG AF3
     local UnbridledPassionCS = player:getVar("unbridledPassion");
 
-    local LvL = player:getMainLvl();
-    local Job = player:getMainJob();
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Empyreal Arrow
+
+    local mLvl = player:getMainLvl();
+    local mJob = player:getMainJob();
 
     -- COP mission
     if (player:getCurrentMission(COP) == THREE_PATHS and player:getVar("COP_Louverance_s_Path") == 1) then
             player:startEvent(0x02AE);
     -- the fanged one
     elseif (TheFangedOne ~= QUEST_COMPLETED) then
-        if (TheFangedOne == QUEST_AVAILABLE and player:getMainLvl() >= ADVANCED_JOB_LEVEL) then
+        if (TheFangedOne == QUEST_AVAILABLE and mLvl >= ADVANCED_JOB_LEVEL) then
             player:startEvent(0x015f);
         elseif (TheFangedOne == QUEST_ACCEPTED and player:hasKeyItem(OLD_TIGERS_FANG) == false) then
             player:startEvent(0x0160);
@@ -63,9 +69,13 @@ function onTrigger(player,npc)
         elseif (player:getVar("TheFangedOne_Event") == 1) then
             player:startEvent(0x0166);
         end
+        
+    -- From Saplings Grow
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
 
     -- sin hunting
-    elseif (SinHunting == QUEST_AVAILABLE and Job == 11 and LvL >= 40 and SinHuntingCS == 0) then
+    elseif (SinHunting == QUEST_AVAILABLE and mJob == 11 and mLvl >= 40 and SinHuntingCS == 0) then
         player:startEvent(0x020b); -- start RNG AF1
     elseif (SinHuntingCS > 0 and SinHuntingCS < 5) then
         player:startEvent(0x020c); -- during quest RNG AF1
@@ -73,7 +83,7 @@ function onTrigger(player,npc)
         player:startEvent(0x020f); -- complete quest RNG AF1
 
     -- fire and brimstone
-    elseif (SinHunting == QUEST_COMPLETED and Job == 11 and FireAndBrimstone == QUEST_AVAILABLE and FireAndBrimstoneCS == 0) then
+    elseif (SinHunting == QUEST_COMPLETED and mJob == 11 and FireAndBrimstone == QUEST_AVAILABLE and FireAndBrimstoneCS == 0) then
         player:startEvent(0x0213); -- start RNG AF2
     elseif (FireAndBrimstoneCS > 0 and FireAndBrimstoneCS < 4) then
         player:startEvent(0x0214); -- during RNG AF2
@@ -83,7 +93,7 @@ function onTrigger(player,npc)
         player:startEvent(0x0218,0,13360,1113); -- during second part RNG AF2
 
     -- Unbridled Passion
-    elseif (FireAndBrimstone == QUEST_COMPLETED and Job == 11 and UnbridledPassion == QUEST_AVAILABLE and UnbridledPassion == 0) then
+    elseif (FireAndBrimstone == QUEST_COMPLETED and mJob == 11 and UnbridledPassion == QUEST_AVAILABLE and UnbridledPassion == 0) then
         player:startEvent(0x021d, 0, 13360); -- start RNG AF3
     elseif (UnbridledPassionCS > 0 and UnbridledPassionCS < 3) then
         player:startEvent(0x021e);-- during RNG AF3
@@ -181,6 +191,8 @@ function onEventFinish(player,csid,option)
         end
     elseif (csid == 0x02AE) then
         player:setVar("COP_Louverance_s_Path",2);
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 
 end;

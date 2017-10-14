@@ -1,22 +1,25 @@
 -----------------------------------
 -- Area: Metalworks
 -- NPC:  Iron Eater
--- Involved in Missions
+-- Starts and Finishes: The Weight Of Your Limits
 -- !pos 92.936 -19.532 1.814 237
 -----------------------------------
 package.loaded["scripts/zones/Metalworks/TextIDs"] = nil;
 -----------------------------------
-
 require("scripts/globals/missions");
-require("scripts/zones/Metalworks/TextIDs");
 require("scripts/globals/titles");
 require("scripts/globals/settings");
+require("scripts/globals/wsquest");
+require("scripts/zones/Metalworks/TextIDs");
+
+WSQUEST = WSQUESTS.theWeightOfYourLimits;
 
 -----------------------------------
 -- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
+    handleWsQuestTrade(WSQUEST, player, trade);
 end;
 
 -----------------------------------
@@ -27,6 +30,7 @@ function onTrigger(player,npc)
 
     local currentMission = player:getCurrentMission(BASTOK);
     local missionStatus = player:getVar("MissionStatus");
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Steel Cyclone
 
     if (currentMission == THE_FOUR_MUSKETEERS and missionStatus == 0) then -- Four Musketeers
         player:startEvent(0x02cb);
@@ -56,6 +60,8 @@ function onTrigger(player,npc)
         else
             player:startEvent(0x03BD);
         end
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     else
         player:startEvent(0x025c);
     end
@@ -102,5 +108,7 @@ function onEventFinish(player,csid,option)
         player:setTitle(296);
     elseif (csid == 0x03BC) then
         player:setVar("FiresOfDiscProg",2);
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 end;

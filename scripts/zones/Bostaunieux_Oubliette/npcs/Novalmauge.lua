@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Bostaunieux Obliette
 -- NPC:  Novalmauge
--- Starts and Finishes Quest: The Rumor
+-- Starts and Finishes Quest: The Rumor, Souls In Shadow
 -- Involved in Quest: The Holy Crest, Trouble at the Sluice
 -- !pos 70 -24 21 167
 -----------------------------------
@@ -12,9 +12,13 @@ require("scripts/globals/titles");
 require("scripts/globals/keyitems");
 require("scripts/globals/shop");
 require("scripts/globals/quests");
-require("scripts/zones/Bostaunieux_Oubliette/TextIDs");
+require("scripts/globals/wsquest");
 require("scripts/globals/pathfind");
+require("scripts/zones/Bostaunieux_Oubliette/TextIDs");
 
+WSQUEST = WSQUESTS.soulsInShadow;
+
+-- TODO This pathing is throwing a ton of navmesh errors to console, needs some love and attention.
 local path = {
 41.169430, -24.000000, 19.860674,
 42.256676, -24.000000, 19.885197,
@@ -40,21 +44,24 @@ end;
 -----------------------------------
 
 function onTrade(player,npc,trade)
+    local count = trade:getItemCount();
+    local Dahlia = 959;
+    local BeastBlood = 930;
 
-    if (player:getVar("troubleAtTheSluiceVar") == 2) then
-        if (trade:hasItemQty(959,1) and trade:getItemCount() == 1) then -- Trade Dahlia
-            player:startEvent(0x0011);
-            npc:wait(-1);
-        end
+    if (player:getVar("troubleAtTheSluiceVar") == 2 
+            and (trade:hasItemQty(Dahlia,1)) 
+            and (count == 1)) then
+        player:startEvent(0x0011);
+        npc:wait(-1);
+    elseif (player:getQuestStatus(SANDORIA,THE_RUMOR) == QUEST_ACCEPTED
+            and (trade:hasItemQty(BeastBlood,1))
+            and (count == 1)) then
+        player:startEvent(0x000c);
+        npc:wait(-1);
+    else
+        handleWsQuestTrade(WSQUEST, player, trade);
     end
-    if (player:getQuestStatus(SANDORIA,THE_RUMOR) == QUEST_ACCEPTED) then
-        local count = trade:getItemCount();
-        local BeastBlood = trade:hasItemQty(930,1)
-        if (BeastBlood == true and count == 1) then
-            player:startEvent(0x000c);
-            npc:wait(-1);
-        end
-    end
+
 end;
 
 -----------------------------------
@@ -67,12 +74,16 @@ function onTrigger(player,npc)
     local TheHolyCrest = player:getVar("TheHolyCrest_Event");
     local tatsVar = player:getVar("troubleAtTheSluiceVar");
     local theRumor = player:getQuestStatus(SANDORIA,THE_RUMOR);
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Spiral Hell
 
     npc:wait(-1);
 
     -- The Holy Crest Quest
     if (TheHolyCrest == 1) then
         player:startEvent(0x0006);
+    -- WS Quest (Inserted here to not interfere with DRG flag, and not require Heavy Axe/Drain quests as prereq)
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     elseif (TheHolyCrest == 2) then
         player:startEvent(0x0007);
     -- Trouble at the Sluice Quest
@@ -85,7 +96,7 @@ function onTrigger(player,npc)
     elseif (theRumor == QUEST_AVAILABLE and player:getFameLevel(SANDORIA) >= 3 and player:getMainLvl() >= 10) then
         player:startEvent(0x000d);
     elseif (theRumor == QUEST_ACCEPTED) then
-        player:startEvent(0x000b);
+        player:startEvent(0x000b); -- "Go get me some beastmen blood"
     elseif (theRumor == QUEST_COMPLETED) then
         player:startEvent(0x000e); -- Standard dialog after "The Rumor"
     else
@@ -130,6 +141,8 @@ function onEventFinish(player,csid,option,npc)
             player:addFame(SANDORIA,30);
             player:completeQuest(SANDORIA,THE_RUMOR);
         end
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 
     npc:wait(0);

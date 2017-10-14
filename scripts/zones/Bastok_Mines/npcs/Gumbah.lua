@@ -31,6 +31,7 @@ end;
 function onTrigger(player,npc)
 
     local bladeDarkness = player:getQuestStatus(BASTOK, BLADE_OF_DARKNESS);
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Ground Strike
 
     if (player:getMainLvl() >= ADVANCED_JOB_LEVEL and  bladeDarkness == QUEST_AVAILABLE) then
         --DARK KNIGHT QUEST
@@ -41,11 +42,10 @@ function onTrigger(player,npc)
     or ((player:getCurrentMission(BASTOK) == ON_MY_WAY) and (player:getVar("MissionStatus") == 3)))
         and (player:getVar("[B7-2]Werei") == 0) then
         player:startEvent(0x00b1);
-    else 
-        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
-        if (wsEventStarted == false) then
-            player:startEvent(0x0034); -- Default dialogue
-        end
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
+    else
+        player:startEvent(0x0034); -- Default dialogue
     end
 end;
 

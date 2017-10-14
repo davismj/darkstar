@@ -13,7 +13,10 @@ require("scripts/globals/titles");
 require("scripts/globals/keyitems");
 require("scripts/globals/missions");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
 require("scripts/zones/Metalworks/TextIDs");
+
+WSQUEST = WSQUESTS.shootFirstAskQuestionsLater;
 
 -----------------------------------
 -- onTrade Action
@@ -25,6 +28,8 @@ function onTrade(player,npc,trade)
         if (trade:getItemQty(613,1) and trade:getItemCount() == 1) then
             player:startEvent(0x01fa);
         end
+    else
+        handleWsQuestTrade(WSQUEST, player, trade);
     end
 
 end;
@@ -44,61 +49,63 @@ function onTrigger(player,npc)
     local TenzenPath = player:getVar("COP_Tenzen_s_Path");
     local LouverancePath = player:getVar("COP_Louverance_s_Path");
     local TreePathAv=0;
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Detonator
+
     if (currentCOPMission == DAWN and player:getVar("PromathiaStatus")==3 and player:getVar("Promathia_kill_day")~=currentday and player:getVar("COP_tenzen_story")== 0 ) then
-           player:startEvent(0x0381); -- COP event
+        player:startEvent(0x0381); -- COP event
     elseif (currentCOPMission == CALM_BEFORE_THE_STORM and player:hasKeyItem(LETTERS_FROM_ULMIA_AND_PRISHE) == false and player:getVar("COP_Dalham_KILL") == 2 and player:getVar("COP_Boggelmann_KILL") == 2 and player:getVar("Cryptonberry_Executor_KILL")==2) then
-            player:startEvent(0x037C); -- COP event
+        player:startEvent(0x037C); -- COP event
     elseif (currentCOPMission == FIRE_IN_THE_EYES_OF_MEN and player:getVar("PromathiaStatus")==2 and player:getVar("Promathia_CID_timer")~=VanadielDayOfTheYear()) then
-            player:startEvent(0x037A); -- COP event
+        player:startEvent(0x037A); -- COP event
     elseif (currentCOPMission == FIRE_IN_THE_EYES_OF_MEN and player:getVar("PromathiaStatus")==1) then
-              player:startEvent(0x0359); -- COP event
+        player:startEvent(0x0359); -- COP event
     elseif (currentCOPMission == ONE_TO_BE_FEARED and player:getVar("PromathiaStatus")==0) then
-            player:startEvent(0x0358); -- COP event
+        player:startEvent(0x0358); -- COP event
     elseif (currentCOPMission == THREE_PATHS and LouverancePath == 6 ) then
-            player:startEvent(0x0354); -- COP event
+        player:startEvent(0x0354); -- COP event
     elseif (currentCOPMission == THREE_PATHS and LouverancePath == 9 ) then
-            if (TenzenPath==11 and UlmiaPath==8) then
-               TreePathAv=6;
-            elseif (TenzenPath==11) then
-               TreePathAv=2;
-            elseif (UlmiaPath==8) then
-               TreePathAv=4;
-            else
-               TreePathAv=1;
-            end
-            player:startEvent(0x0355,TreePathAv); -- COP event
+        if (TenzenPath==11 and UlmiaPath==8) then
+           TreePathAv=6;
+        elseif (TenzenPath==11) then
+           TreePathAv=2;
+        elseif (UlmiaPath==8) then
+           TreePathAv=4;
+        else
+           TreePathAv=1;
+        end
+        player:startEvent(0x0355,TreePathAv); -- COP event
     elseif (currentCOPMission == THREE_PATHS and TenzenPath == 10 ) then
-            if (UlmiaPath==8 and LouverancePath==10) then
-               TreePathAv=5;
-            elseif (LouverancePath==10) then
-               TreePathAv=3;
-            elseif (UlmiaPath==8) then
-               TreePathAv=4;
-            else
-               TreePathAv=1;
-            end
-            player:startEvent(0x0356,TreePathAv); -- COP event
+        if (UlmiaPath==8 and LouverancePath==10) then
+           TreePathAv=5;
+        elseif (LouverancePath==10) then
+           TreePathAv=3;
+        elseif (UlmiaPath==8) then
+           TreePathAv=4;
+        else
+           TreePathAv=1;
+        end
+        player:startEvent(0x0356,TreePathAv); -- COP event
     elseif (currentCOPMission == THREE_PATHS and UlmiaPath == 7 ) then
-            if (TenzenPath==11 and LouverancePath==10) then
-               TreePathAv=3;
-            elseif (LouverancePath==10) then
-               TreePathAv=1;
-            elseif (TenzenPath==11) then
-               TreePathAv=2;
-            else
-               TreePathAv=0;
-            end
-            player:startEvent(0x0357,TreePathAv); -- COP event
+        if (TenzenPath==11 and LouverancePath==10) then
+           TreePathAv=3;
+        elseif (LouverancePath==10) then
+           TreePathAv=1;
+        elseif (TenzenPath==11) then
+           TreePathAv=2;
+        else
+           TreePathAv=0;
+        end
+        player:startEvent(0x0357,TreePathAv); -- COP event
     elseif (currentCOPMission == DESIRES_OF_EMPTINESS and player:getVar("PromathiaStatus") > 8) then
-            player:startEvent(0x0352); -- COP event
+        player:startEvent(0x0352); -- COP event
     elseif (currentCOPMission == THE_ENDURING_TUMULT_OF_WAR and player:getVar("PromathiaStatus")==1) then
-            player:startEvent(0x0351); -- COP event
+        player:startEvent(0x0351); -- COP event
     elseif (currentCOPMission == THE_CALL_OF_THE_WYRMKING and player:getVar("PromathiaStatus")==1) then
-            player:startEvent(0x034D); -- COP event
+        player:startEvent(0x034D); -- COP event
     elseif (currentCOPMission == THE_ROAD_FORKS and player:getVar("EMERALD_WATERS_Status")== 7 and player:getVar("MEMORIES_OF_A_MAIDEN_Status")== 12) then --two paths are finished ?
-            player:startEvent(0x034F); -- COP event 3.3
+        player:startEvent(0x034F); -- COP event 3.3
     elseif (player:getMainJob() == JOBS.DRK and player:getMainLvl() >= AF2_QUEST_LEVEL and
-       player:getQuestStatus(BASTOK,DARK_LEGACY) == QUEST_COMPLETED and player:getQuestStatus(BASTOK,DARK_PUPPET) == QUEST_AVAILABLE) then
+        player:getQuestStatus(BASTOK,DARK_LEGACY) == QUEST_COMPLETED and player:getQuestStatus(BASTOK,DARK_PUPPET) == QUEST_AVAILABLE) then
         player:startEvent(0x02f8); -- Start Quest "Dark Puppet"
     elseif (currentMission == GEOLOGICAL_SURVEY) then
         if (player:hasKeyItem(RED_ACIDITY_TESTER)) then
@@ -116,6 +123,8 @@ function onTrigger(player,npc)
         player:startEvent(0x02fb); -- Bastok Mission 7-1
     elseif (currentMission == THE_FINAL_IMAGE and player:getVar("MissionStatus") == 2) then
         player:startEvent(0x02fc); -- Bastok Mission 7-1 (with Ki)
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     --Begin Cid's Secret
     elseif (player:getFameLevel(BASTOK) >= 4 and CidsSecret == QUEST_AVAILABLE) then
         player:startEvent(0x01fb);
@@ -237,7 +246,9 @@ function onEventFinish(player,csid,option)
         else
             player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,13570);
         end
-     end
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
+    end
      -- complete chapter "tree path"
      if (csid == 0x0355 or csid == 0x0356 or csid == 0x0357) then
        if (player:getVar("COP_Tenzen_s_Path")==11 and player:getVar("COP_Ulmia_s_Path")==8 and player:getVar("COP_Louverance_s_Path")==10) then
@@ -247,9 +258,4 @@ function onEventFinish(player,csid,option)
          end
      end
 
-
-
 end;
-
-
-

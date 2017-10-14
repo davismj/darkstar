@@ -53,6 +53,7 @@ function onTrigger(player,npc)
     local theSacredKatana = player:getQuestStatus(OUTLANDS,THE_SACRED_KATANA); -- SAM AF1
     local yomiOkuri = player:getQuestStatus(OUTLANDS,YOMI_OKURI); -- SAM AF2
     local aThiefinNorg = player:getQuestStatus(OUTLANDS,A_THIEF_IN_NORG); -- SAM AF3
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Tachi: Kasha
 
     local mLvl = player:getMainLvl();
     local mJob = player:getMainJob();
@@ -129,16 +130,14 @@ function onTrigger(player,npc)
         elseif (aThiefinNorgCS == 9) then
             player:startEvent(0x00a4); -- Finish Quest "A Thief in Norg!?"
         end
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
+    elseif (aThiefinNorg == QUEST_COMPLETED) then
+        player:startEvent(0x00a5); -- New Standard dialog
     else
-        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
-        if (wsEventStarted == false) then
-            if (aThiefinNorg == QUEST_COMPLETED) then
-                player:startEvent(0x00a5); -- New Standard dialog
-            else
-                player:startEvent(0x0047); -- Standard dialogue
-            end
-        end
+        player:startEvent(0x0047); -- Standard dialogue
     end
+
 end;
 
 -----------------------------------

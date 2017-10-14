@@ -39,9 +39,10 @@ function onTrigger(player,npc)
     local mLvL = player:getMainLvl();
     local mJob = player:getMainJob();
     local theGeneralSecret = player:getQuestStatus(SANDORIA,THE_GENERAL_S_SECRET);
-    local envelopedInDarkness = player:getQuestStatus(SANDORIA,ENVELOPED_IN_DARKNESS);
-    local peaceForTheSpirit = player:getQuestStatus(SANDORIA,PEACE_FOR_THE_SPIRIT);
+    local envelopedInDarkness = player:getQuestStatus(SANDORIA,ENVELOPED_IN_DARKNESS); -- RDM AF2
+    local peaceForTheSpirit = player:getQuestStatus(SANDORIA,PEACE_FOR_THE_SPIRIT); -- RDM AF3
     local WildcatSandy = player:getVar("WildcatSandy");
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Savage Blade
 
     if (player:getQuestStatus(SANDORIA,LURE_OF_THE_WILDCAT_SAN_D_ORIA) == QUEST_ACCEPTED and player:getMaskBit(WildcatSandy,15) == false) then
         player:startEvent(0x0232);
@@ -71,11 +72,10 @@ function onTrigger(player,npc)
         player:startEvent(0x0072); -- Standard dialog after Enveloped in darkness
     elseif (peaceForTheSpirit == QUEST_COMPLETED) then
         player:startEvent(0x0034); -- Standard dialog after Peace of the spirit
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     else
-        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
-        if (wsEventStarted == false) then
-            player:startEvent(0x0212); -- Standard dialog
-        end
+        player:startEvent(0x0212); -- Standard dialog
     end
 
 end;

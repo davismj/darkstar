@@ -6,11 +6,14 @@
 -----------------------------------
 package.loaded["scripts/zones/Windurst_Walls/TextIDs"] = nil;
 -----------------------------------
-require("scripts/zones/Windurst_Walls/TextIDs");
 require("scripts/globals/settings");
 require("scripts/globals/quests");
 require("scripts/globals/keyitems");
 require("scripts/globals/titles");
+require("scripts/globals/wsquest");
+require("scripts/zones/Windurst_Walls/TextIDs");
+
+WSQUEST = WSQUESTS.bloodAndGlory;
 
 -----------------------------------
 -- onTrade Action
@@ -19,8 +22,12 @@ require("scripts/globals/titles");
 function onTrade(player,npc,trade)
 
     local count = trade:getItemCount();
+
+    if (count == 1) then -- Kind of dumb and hacky, but it plays well with others for now.
+        handleWsQuestTrade(WSQUEST, player, trade);
+
     -- Curses Foiled Again!
-    if (player:getQuestStatus(WINDURST,CURSES_FOILED_AGAIN_1) == QUEST_ACCEPTED) then
+    elseif (player:getQuestStatus(WINDURST,CURSES_FOILED_AGAIN_1) == QUEST_ACCEPTED) then
         if (trade:hasItemQty(928,1) and trade:hasItemQty(880,2) and count == 3) then
             player:startEvent(0xad,0,0,0,0,0,0,928,880); -- Correct items given, complete quest.
         else
@@ -34,8 +41,7 @@ function onTrade(player,npc,trade)
         else
             player:startEvent(0x00B5,0,0,0,0,0,0,17316,940); -- Incorrect or not enough items
         end
-
-
+    
     end
 end;
 
@@ -48,9 +54,10 @@ function onTrigger(player,npc)
     local foiledAgain = player:getQuestStatus(WINDURST,CURSES_FOILED_AGAIN_1);
     local CFA2 = player:getQuestStatus(WINDURST,CURSES_FOILED_AGAIN_2);
     local CFAtimer = player:getVar("CursesFoiledAgain");
-    local FoiledAGolem = player:getQuestStatus(WINDURST,CURSES_FOILED_A_GOLEM);
+    local FoiledAGolem = player:getQuestStatus(WINDURST,CURSES_FOILED_A_GOLEM); -- Warp II
     local golemdelivery = player:getVar("foiledagolemdeliverycomplete");
     local WildcatWindurst = player:getVar("WildcatWindurst");
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Retribution
 
     if (player:getCurrentMission(WINDURST) == THE_JESTER_WHO_D_BE_KING and player:getVar("MissionStatus") == 7) then
         player:startEvent(0x18d,0,0,0,282);
@@ -59,6 +66,8 @@ function onTrigger(player,npc)
     elseif (player:getQuestStatus(WINDURST,CLASS_REUNION) == QUEST_ACCEPTED and player:getVar("ClassReunionProgress") == 3) then
         player:startEvent(0x0199); -- she mentions that Sunny-Pabonny left for San d'Oria
     -------------------------------------------------------
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     -- Curses Foiled Again!
     elseif (foiledAgain == QUEST_AVAILABLE) then
         player:startEvent(0xab,0,0,0,0,0,0,928,880);
@@ -200,5 +209,7 @@ function onEventFinish(player,csid,option)
         player:setVar("MissionStatus",8)
     elseif (csid == 0x18f) then
         player:setVar("ShantottoCS",0)
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 end;

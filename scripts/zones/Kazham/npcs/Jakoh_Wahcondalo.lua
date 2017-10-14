@@ -25,17 +25,19 @@ end;
 -----------------------------------
 
 function onTrigger(player,npc)
+
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Evisceration
+
     if (player:getCurrentMission(ZILART) == KAZAMS_CHIEFTAINESS) then
         player:startEvent(0x0072);
     elseif (player:getCurrentMission(ZILART) == THE_TEMPLE_OF_UGGALEPIH) then
         player:startEvent(0x0073);
     elseif (player:getCurrentMission(WINDURST) == AWAKENING_OF_THE_GODS and player:getVar("MissionStatus") == 2) then
         player:startEvent(0x0109);
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     else
-        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
-        if (wsEventStarted == false) then
-            player:startEvent(0x0071); -- Default dialogue
-        end
+        player:startEvent(0x0071); -- Default dialogue
     end
 
 end;

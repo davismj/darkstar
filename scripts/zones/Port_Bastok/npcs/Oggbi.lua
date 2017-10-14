@@ -36,10 +36,11 @@ end;
 
 function onTrigger(player,npc)
 
-    ghostsOfThePast = player:getQuestStatus(BASTOK,GHOSTS_OF_THE_PAST);
-    theFirstMeeting = player:getQuestStatus(BASTOK,THE_FIRST_MEETING);
-    mLvl = player:getMainLvl();
-    mJob = player:getMainJob();
+    local mLvl = player:getMainLvl();
+    local mJob = player:getMainJob();
+    local ghostsOfThePast = player:getQuestStatus(BASTOK,GHOSTS_OF_THE_PAST);
+    local theFirstMeeting = player:getQuestStatus(BASTOK,THE_FIRST_MEETING);
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Asuran Fists
 
     if (ghostsOfThePast == QUEST_AVAILABLE and mJob == 2 and mLvl >= 40) then
         player:startEvent(0x00e7); -- Start Quest "Ghosts of the Past"
@@ -47,11 +48,10 @@ function onTrigger(player,npc)
         player:startEvent(0x00e9); -- Start Quest "The First Meeting"
     elseif (player:hasKeyItem(LETTER_FROM_DALZAKK) and player:hasKeyItem(SANDORIAN_MARTIAL_ARTS_SCROLL)) then
         player:startEvent(0x00ea); -- Finish Quest "The First Meeting"
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     else
-        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
-        if (wsEventStarted == false) then
-            player:startEvent(0x00e6); -- Standard Dialog
-        end
+        player:startEvent(0x00e6); -- Standard Dialog
     end
 
 end;

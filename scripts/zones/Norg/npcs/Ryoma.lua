@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Norg
 -- NPC:  Ryoma
--- Start and Finish Quest: 20 in Pirate Years, I'll Take the Big Box, True Will
+-- Start and Finish Quest: 20 in Pirate Years, I'll Take the Big Box, True Will, Bugi Soden
 -- Involved in Quest: Ayame and Kaede
 -- !pos -23 0 -9 252
 -----------------------------------
@@ -11,13 +11,17 @@ require("scripts/globals/settings");
 require("scripts/globals/keyitems");
 require("scripts/globals/shop");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
 require("scripts/zones/Norg/TextIDs");
+
+WSQUEST = WSQUESTS.bugiSoden;
 
 -----------------------------------
 -- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
+    handleWsQuestTrade(WSQUEST, player, trade);
 end;
 
 -----------------------------------
@@ -26,12 +30,12 @@ end;
 
 function onTrigger(player,npc)
 
-    twentyInPirateYears = player:getQuestStatus(OUTLANDS,TWENTY_IN_PIRATE_YEARS);
-    illTakeTheBigBox = player:getQuestStatus(OUTLANDS,I_LL_TAKE_THE_BIG_BOX);
-    trueWill = player:getQuestStatus(OUTLANDS,TRUE_WILL);
-
-    mLvl = player:getMainLvl();
-    mJob = player:getMainJob();
+    local mLvl = player:getMainLvl();
+    local mJob = player:getMainJob();
+    local twentyInPirateYears = player:getQuestStatus(OUTLANDS,TWENTY_IN_PIRATE_YEARS); -- NIN AF1
+    local illTakeTheBigBox = player:getQuestStatus(OUTLANDS,I_LL_TAKE_THE_BIG_BOX); -- NIN AF2
+    local trueWill = player:getQuestStatus(OUTLANDS,TRUE_WILL); -- NIN AF3
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Blade: Ku
 
     if (player:getQuestStatus(BASTOK,AYAME_AND_KAEDE) == QUEST_ACCEPTED) then
         if (player:getVar("AyameAndKaede_Event") == 3) then
@@ -51,6 +55,8 @@ function onTrigger(player,npc)
         player:startEvent(0x0089);
     elseif (player:getVar("trueWillCS") == 1) then
         player:startEvent(0x008a);
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     else
         player:startEvent(0x005e);
     end
@@ -104,6 +110,8 @@ function onEventFinish(player,csid,option)
         player:addQuest(OUTLANDS,TRUE_WILL);
     elseif (csid == 0x0089) then
         player:setVar("trueWillCS",1);
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 
 end;

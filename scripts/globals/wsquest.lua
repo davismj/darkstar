@@ -515,22 +515,18 @@ function handleWsQuestTrigger(quest, player)
             and player:getSkillLevel(quest.skillId) >= quest.minSkill
             and player:hasItem(quest.trialWeaponId) == false
             and player:hasKeyItem(WEAPON_TRAINING_GUIDE) == false) then
-        player:startEvent(quest.eventIds.start); -- WS Quest start
-        return true;
+        return quest.eventIds.start; -- WS Quest start
     elseif (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED) then
         if (player:hasKeyItem(ANNALS_OF_TRUTH)) then
-            player:startEvent(quest.eventIds.finish); -- WS Quest completed (WSNM killed)
-            return true;
+            return quest.eventIds.finish; -- WS Quest completed (WSNM killed)
         elseif (player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH) and (quest.eventIds.cont2 ~= nil)) then
-            player:startEvent(quest.eventIds.cont2); -- WS Quest ongoing stage 2 (traded finished weapon but have not killed NM)
-            return true;
+            return quest.eventIds.cont2; -- WS Quest ongoing stage 2 (traded finished weapon but have not killed NM)
         elseif (not (player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH))) then
-            player:startEvent(quest.eventIds.cont1); -- WS Quest ongoing stage 1 (quest flagged but have not traded finished weapon)
-            return true;
+            return quest.eventIds.cont1; -- WS Quest ongoing stage 1 (quest flagged but have not traded finished weapon)
         end
     end
 
-    return false;
+    return nil;
 end;
 
 function handleWsQuestFinish(quest, player, csid, option)
