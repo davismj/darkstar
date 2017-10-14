@@ -1,7 +1,9 @@
 -----------------------------------
 -- Area: Bastok Mines
 -- NPC: Gumbah
+-- Starts and finishes quest: Inheritance
 -- Finishes Quest: Blade of Darkness
+-- !pos 53 -1 -36
 -----------------------------------
 package.loaded["scripts/zones/Bastok_Mines/TextIDs"] = nil;
 -----------------------------------
@@ -9,13 +11,17 @@ package.loaded["scripts/zones/Bastok_Mines/TextIDs"] = nil;
 require("scripts/globals/settings");
 require("scripts/globals/keyitems");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
 require("scripts/zones/Bastok_Mines/TextIDs");
+
+WSQUEST = WSQUESTS.inheritance;
 
 -----------------------------------
 -- onTrade Action
 -----------------------------------
 
 function onTrade(player,npc,trade)
+    handleWsQuestTrade(WSQUEST, player, trade);
 end; 
 
 -----------------------------------
@@ -36,8 +42,10 @@ function onTrigger(player,npc)
         and (player:getVar("[B7-2]Werei") == 0) then
         player:startEvent(0x00b1);
     else 
-        --DEFAULT 
-        player:startEvent(0x0034);
+        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
+        if (wsEventStarted == false) then
+            player:startEvent(0x0034); -- Default dialogue
+        end
     end
 end;
 
@@ -66,5 +74,7 @@ function onEventFinish(player,csid,option)
         player:messageSpecial(KEYITEM_OBTAINED,LETTER_FROM_ZEID);
     elseif (csid == 0x00b1) then
         player:setVar("[B7-2]Werei", 1);
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 end;

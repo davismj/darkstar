@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Norg
 -- NPC:  Jaucribaix
--- Starts and Finishes Quest: Forge Your Destiny, The Sacred Katana, Yomi Okuri, A Thief in Norg!?
+-- Starts and Finishes Quest: Forge Your Destiny, The Sacred Katana, Yomi Okuri, A Thief in Norg!?, The Potential Within
 -- !pos 91 -7 -8 252
 -----------------------------------
 package.loaded["scripts/zones/Norg/TextIDs"] = nil;
@@ -11,7 +11,10 @@ require("scripts/globals/shop");
 require("scripts/globals/titles");
 require("scripts/globals/keyitems");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
 require("scripts/zones/Norg/TextIDs");
+
+WSQUEST = WSQUESTS.thePotentialWithin;
 
 -----------------------------------
 -- onTrade Action
@@ -19,24 +22,25 @@ require("scripts/zones/Norg/TextIDs");
 
 function onTrade(player,npc,trade)
     local count = trade:getItemCount();
-    if (player:getQuestStatus(OUTLANDS,FORGE_YOUR_DESTINY) == QUEST_ACCEPTED) then
-        if (trade:hasItemQty(1153,1) and trade:hasItemQty(1152,1) and count == 2) then -- Trade Sacred branch and Bomb Steel
-            player:startEvent(0x001b);
-        end
-    end
 
-    if (player:getQuestStatus(OUTLANDS,THE_SACRED_KATANA) == QUEST_ACCEPTED) then
-        if (player:hasKeyItem(HANDFUL_OF_CRYSTAL_SCALES) and trade:hasItemQty(17809,1) and count == 1) then -- Trade Mumeito
-            player:startEvent(0x008d);
-        end
+    if (player:getQuestStatus(OUTLANDS,FORGE_YOUR_DESTINY) == QUEST_ACCEPTED
+            and trade:hasItemQty(1153,1)
+            and trade:hasItemQty(1152,1)
+            and count == 2) then -- Trade Sacred branch and Bomb Steel
+        player:startEvent(0x001b);
+    elseif (player:getQuestStatus(OUTLANDS,THE_SACRED_KATANA) == QUEST_ACCEPTED
+            and player:hasKeyItem(HANDFUL_OF_CRYSTAL_SCALES) 
+            and trade:hasItemQty(17809,1) 
+            and count == 1) then -- Trade Mumeito
+        player:startEvent(0x008d);
+    elseif (player:getQuestStatus(OUTLANDS,A_THIEF_IN_NORG) == QUEST_ACCEPTED
+            and player:hasKeyItem(CHARRED_HELM)
+            and trade:hasItemQty(823,1)
+            and count == 1) then -- Trade Gold Thread
+        player:startEvent(0x00a2);
+    else
+        handleWsQuestTrade(WSQUEST, player, trade);
     end
-
-    if (player:getQuestStatus(OUTLANDS,A_THIEF_IN_NORG) == QUEST_ACCEPTED) then
-        if (player:hasKeyItem(CHARRED_HELM) and trade:hasItemQty(823,1) and count == 1) then -- Trade Gold Thread
-            player:startEvent(0x00a2);
-        end
-    end
-
 end;
 
 -----------------------------------
@@ -45,10 +49,10 @@ end;
 
 function onTrigger(player,npc)
 
-    local ForgeYourDestiny = player:getQuestStatus(OUTLANDS, FORGE_YOUR_DESTINY);
-    local theSacredKatana = player:getQuestStatus(OUTLANDS,THE_SACRED_KATANA);
-    local yomiOkuri = player:getQuestStatus(OUTLANDS,YOMI_OKURI);
-    local aThiefinNorg = player:getQuestStatus(OUTLANDS,A_THIEF_IN_NORG);
+    local ForgeYourDestiny = player:getQuestStatus(OUTLANDS, FORGE_YOUR_DESTINY); -- SAM job unlock
+    local theSacredKatana = player:getQuestStatus(OUTLANDS,THE_SACRED_KATANA); -- SAM AF1
+    local yomiOkuri = player:getQuestStatus(OUTLANDS,YOMI_OKURI); -- SAM AF2
+    local aThiefinNorg = player:getQuestStatus(OUTLANDS,A_THIEF_IN_NORG); -- SAM AF3
 
     local mLvl = player:getMainLvl();
     local mJob = player:getMainJob();
@@ -125,10 +129,15 @@ function onTrigger(player,npc)
         elseif (aThiefinNorgCS == 9) then
             player:startEvent(0x00a4); -- Finish Quest "A Thief in Norg!?"
         end
-    elseif (aThiefinNorg == QUEST_COMPLETED) then
-        player:startEvent(0x00a5); -- New Standard dialog
     else
-        player:startEvent(0x0047); -- Standard dialog
+        local wsEventStarted = handleWsQuestTrigger(WSQUEST, player);
+        if (wsEventStarted == false) then
+            if (aThiefinNorg == QUEST_COMPLETED) then
+                player:startEvent(0x00a5); -- New Standard dialog
+            else
+                player:startEvent(0x0047); -- Standard dialogue
+            end
+        end
     end
 end;
 
@@ -235,6 +244,8 @@ function onEventFinish(player,csid,option)
             player:addFame(NORG,AF3_FAME);
             player:completeQuest(OUTLANDS,A_THIEF_IN_NORG);
         end
+    else
+        handleWsQuestFinish(WSQUEST, player, csid, option);
     end
 
 end;

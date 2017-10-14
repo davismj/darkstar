@@ -496,9 +496,12 @@ WSQUESTS =
 };
 
 function handleWsQuestTrade(quest, player, trade)
-    local wsPoints = 300; -- TODO replace this with player's actual ws point count
+    local wsPoints = (trade:getItem(0):getWeaponskillPoints());
+    --wsPoints = 300;
+    --player:PrintToPlayer(string.format("DEBUG: %s WS points.",wsPoints)); -- DEBUG only, remove for deployment    
+
     if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED and trade:hasItemQty(quest.trialWeaponId,1) and trade:getItemCount() == 1) then
-        if wsPoints < 300 then -- TODO replace  this with player's actual ws point count
+        if wsPoints < 300 then
             player:startEvent(quest.eventIds.tradedUnfinishedWeapon);
         else
             player:startEvent(quest.eventIds.tradedFinishedWeapon);
@@ -540,14 +543,12 @@ function handleWsQuestFinish(quest, player, csid, option)
             player:addItem(quest.trialWeaponId);
             player:messageSpecial(ITEM_OBTAINED,quest.trialWeaponId);
             player:addQuest(quest.logId,quest.questId);
-            -- TODO initialize ws point counter
         end
     elseif (csid == quest.eventIds.cont1) then -- WS Quest ongoing stage 1
         if ((quest.options.dropped ~= nil) and (option == quest.options.dropped)) then -- Misplaced weapon
             if (player:hasItem(quest.trialWeaponId))  then
                 player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,quest.trialWeaponId);
             else
-                -- TODO set ws point counter to 0
                 player:addItem(quest.trialWeaponId);
                 player:messageSpecial(ITEM_OBTAINED,quest.trialWeaponId);
             end
