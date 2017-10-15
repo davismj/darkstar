@@ -13,5 +13,5 @@ require("scripts/zones/Gustav_Tunnel/TextIDs");
 -- onMobDeath
 -----------------------------------
 function onMobDeath(mob, player, isKiller)
-    handleWsnmDeath(WSQUESTS.cloakAndDagger, player)
+    handleWsnmDeath(WSQUESTS.cloakAndDagger, player);
 end;
