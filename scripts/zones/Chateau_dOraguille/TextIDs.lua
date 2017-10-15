@@ -10,7 +10,7 @@
 -- Mission dialog
 HALVER_OFFSET = 6789; -- The princess is always speaking of your deeds for the Kingdom. Everyone here is counting on you,
  
--- Quest dialog
+-- WS Quest
 SAVAGE_BLADE_LEARNED = 7936;-- You have learned the weapon skill “Savage Blade”!
 
 -- Other Dialog

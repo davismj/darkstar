@@ -25,7 +25,7 @@ MISSION_DIALOG_CID_TO_AYAME =  7568; -- Give it to one of his Mythril Musketeers
                  ITS_LOCKED =  7979; -- It's locked.
    EXTENDED_MISSION_OFFSET  =  8592; -- Go to Ore Street and talk to Medicine Eagle. He says he was there when the commotion started.
 
--- Quest Dialog
+-- WS Quest
 STEEL_CYCLONE_LEARNED = 9003;-- You have learned the weapon skill “Steel Cyclone”!
     DETONATOR_LEARNED = 9028;-- You have learned the weapon skill “Detonator”!
 

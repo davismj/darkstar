@@ -8,11 +8,10 @@ ITEM_CANNOT_BE_OBTAINED = 6379; -- You cannot obtain the item <item>. Come back 
           HOMEPOINT_SET = 6475;  -- Home point set!
  FISHING_MESSAGE_OFFSET = 6654;  -- You can't fish here.
 
--- Other Texts
-ITEM_DELIVERY_DIALOG = 9954; -- We can deliver packages to Mog Houses anywhere in Vana'diel.
+-- WS Quest
+EVISCERATION_LEARNED = 10642; -- You have learned the weapon skill "Evisceration"!
 
 -- Quest Dialog
-EVISCERATION_LEARNED = 10642; -- You have learned the weapon skill "Evisceration"!
       IFRIT_UNLOCKED = 10513; -- You are now able to summon Ifrit!
  NOMAD_MOOGLE_DIALOG = 10581; -- I'm a traveling moogle, kupo. I help adventurers in the Outlands access items they have stored in a Mog House elsewhere, kupo.
 
@@ -25,8 +24,11 @@ GHEMISENTERILO_SHOP_DIALOG = 10040; -- Can you really get everything that you wa
  PAHYALOLOHOIV_SHOP_DIALOG = 10326; -- Nothing in this world is crrreated good or evil. However, evil can arrrise when something exists in a place where it did not originally belong.
        MAMERIE_SHOP_DIALOG = 10605; -- Is there something you require?
 
--- conquest Base
-CONQUEST_BASE = 6495; -- Tallying conquest results...
-
 -- Porter Moogle
 RETRIEVE_DIALOG_ID = 10992; -- You retrieve$ from the porter moogle's care.
+
+-- Other Texts
+ITEM_DELIVERY_DIALOG = 9954; -- We can deliver packages to Mog Houses anywhere in Vana'diel.
+
+-- conquest Base
+CONQUEST_BASE = 6495; -- Tallying conquest results...

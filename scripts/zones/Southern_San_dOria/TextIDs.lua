@@ -27,8 +27,10 @@ CONQUEST =  8475; -- You've earned conquest points!
  YOU_ACCEPT_THE_MISSION = 7188; -- You accept the mission.
 ORIGINAL_MISSION_OFFSET = 7199; -- Bring me one of those axes, and your mission will be a success. No running away now; we've a proud country to defend!
 
--- Quest Dialogs
+-- WS Quest
 IMPULSE_DRIVE_LEARNED = 9308; -- You have learned the weapon skill “Impulse Drive”!
+
+-- Other quests
        UNLOCK_PALADIN = 8000; -- You can now become a paladin!
         FLYER_REFUSED = 8171; -- Your flyer is refused.
        FLYER_ACCEPTED = 8820; -- The flyer is accepted.

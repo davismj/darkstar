@@ -10,7 +10,7 @@ ITEM_CANNOT_BE_OBTAINED = 6538; -- You cannot obtain the item <item>. Come back 
           HOMEPOINT_SET = 6672; -- Home point set!
 NOTHING_OUT_OF_ORDINARY = 6557; -- There is nothing out of the ordinary here.
 
--- Quest Dialog
+-- WS Quest
 DECIMATION_LEARNED = 8188; -- You have learned the weapon skill “Decimation”!
 
 -- Other Texts
@@ -22,8 +22,7 @@ CONQUEST = 7732; -- You've earned conquest points!
 -- NPC Texts
             KIRISOMANRISO_DIALOG = 8065; -- Delivering goods to residences everywhere!
 YOU_CAN_NOW_BECOME_A_BEASTMASTER = 7176; -- You can now become a beastmaster.
-
-                   UNLOCK_DANCER = 11819; -- You can now become a dancer!
+                  UNLOCK_DANCER = 11819; -- You can now become a dancer!
 
 GUIDE_STONE = 6971; -- Up: Ru'Lude Gardens Down: Lower Jeuno
 

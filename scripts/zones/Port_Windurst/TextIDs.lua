@@ -22,8 +22,10 @@ CONQUEST = 11884; -- You've earned conquest points!
 -- Mission Dialogs
 YOU_ACCEPT_THE_MISSION = 11151; -- You have accepted the mission.
 
--- Quest Dialog
-   BLACK_HALO_LEARNED = 12637; -- You have learned the weapon skill “Black Halo”!
+-- WS Quest
+BLACK_HALO_LEARNED = 12637; -- You have learned the weapon skill “Black Halo”!
+
+-- Other Quests
     GOLD_SKULL_DIALOG = 3251;  -- Welcome back. Your mission went without incident, I trust?
        MELEK_DIALOG_A = 3278;  -- Well, good luck with your mission. I look forward to hearing of your success.
        MELEK_DIALOG_B = 3250;  -- Take that sword to Giddeus. Good luck.

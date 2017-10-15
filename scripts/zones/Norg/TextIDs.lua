@@ -9,13 +9,11 @@ ITEM_CANNOT_BE_OBTAINED = 6401; -- You cannot obtain the item <item>. Come back 
           HOMEPOINT_SET = 2;     -- Home point set!
          DOOR_IS_LOCKED = 10351; -- The door is locked tight.
 
--- Other Texts
- SPASIJA_DELIVERY_DIALOG = 10345; -- Hiya! I can deliver packages to anybody, anywhere, anytime. What do you say?
-PALEILLE_DELIVERY_DIALOG = 10346; -- We can deliver parcels to any residence in Vana'diel.
+-- WS Quest
+TACHI_KASHA_LEARNED = 10794; -- You have learned the weapon skill “Tachi: Kasha”!
+   BLADE_KU_LEARNED = 10819; -- You have learned the weapon skill “Blade: Ku”!
 
 -- Quest Dialog
-         TACHI_KASHA_LEARNED = 10794; -- You have learned the weapon skill “Tachi: Kasha”!
-            BLADE_KU_LEARNED = 10819; -- You have learned the weapon skill “Blade: Ku”!
 YOU_CAN_NOW_BECOME_A_SAMURAI = 10194; -- You can now become a samurai.
    CARRYING_TOO_MUCH_ALREADY = 10195; -- I wish to give you your reward, but you seem to be carrying too much already. Come back when you have more room in your pack.
               SPASIJA_DIALOG = 10345; -- Hiya! I can deliver packages to anybody, anywhere, anytime. What do you say?
@@ -29,11 +27,14 @@ YOU_CAN_NOW_BECOME_A_SAMURAI = 10194; -- You can now become a samurai.
      VULIAIE_SHOP_DIALOG = 10342; -- Please, stay and have a look. You may find something you can only buy here.
       ACHIKA_SHOP_DIALOG = 10343; -- Can I interest you in some armor forged in the surrounding regions?
        CHIYO_SHOP_DIALOG = 10344; -- Magic scrolls! Magic scrolls! We've got parchment hot off the sheep!
-
 SOLBYMAHOLBY_SHOP_DIALOG = 10571; -- Hiya! My name's Solby-Maholby! I'm new here, so they put me on tooty-fruity shop duty. I'll give you a super-duper deal on unwanted items!
-
--- conquest Base
-CONQUEST_BASE = 6495; -- Tallying conquest results...
 
 -- Porter Moogle
     RETRIEVE_DIALOG_ID = 11272; -- You retrieve$ from the porter moogle's care.
+
+-- Other Texts
+ SPASIJA_DELIVERY_DIALOG = 10345; -- Hiya! I can deliver packages to anybody, anywhere, anytime. What do you say?
+PALEILLE_DELIVERY_DIALOG = 10346; -- We can deliver parcels to any residence in Vana'diel.
+
+-- conquest Base
+CONQUEST_BASE = 6495; -- Tallying conquest results...

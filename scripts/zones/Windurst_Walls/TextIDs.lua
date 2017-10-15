@@ -10,7 +10,7 @@ ITEM_CANNOT_BE_OBTAINED = 6538; -- Come back after sorting your inventory.
  FISHING_MESSAGE_OFFSET = 7050; -- You can't fish here.
           MOGHOUSE_EXIT = 8182; -- You have learned your way through the back alleys of Windurst! Now you can exit to any area from your residence.
 
--- Quest Dialog
+-- WS Quest
 RETRIBUTION_LEARNED = 9054; -- You have learned the weapon skill “Retribution”!
 
 -- Other Texts

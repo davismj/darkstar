@@ -20,7 +20,7 @@ CONQUEST = 7995; -- You've earned conquest points!
    ORIGINAL_MISSION_OFFSET = 7340; -- You can consult the ission section of the main menu to review your objectives. Speed and efficiency are your priorities. Dismissed. 
    EXTENDED_MISSION_OFFSET = 8460; -- Go to Ore Street and talk to Medicine Eagle. He says he was there when the commotion started.
 
--- Quest Dialog
+-- WS Quest
 ASURAN_FISTS_LEARNED = 8802; -- You have learned the weapon skill “Asuran Fists”!
 
 -- Dialog Texts

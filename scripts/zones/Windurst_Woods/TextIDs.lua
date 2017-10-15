@@ -16,7 +16,6 @@
                GP_OBTAINED = 7228; -- Obtained: ?Numeric Parameter 0? guild points.
         NOT_HAVE_ENOUGH_GP = 7229; -- You do not have enough guild points.
 
-
 -- Conquest System
 CONQUEST = 8920; -- You've earned conquest points!
 
@@ -29,6 +28,15 @@ ITEM_DELIVERY_DIALOG =  6823; -- We can deliver goods to your residence or to th
 
 -- Mission Dialogs
 YOU_ACCEPT_THE_MISSION = 6727; -- You have accepted the mission.
+
+-- WS Quest
+EMPYREAL_ARROW_LEARNED = 9717; -- You have learned the weapon skill “Empyreal Arrow”!
+
+-- Other Quests
+PERIH_VASHAI_DIALOG = 8249; -- You can now become a ranger!
+     CATALIA_DIALOG = 8551; -- While we cannot break our promise to the Windurstians, to ensure justice is served, we would secretly like you to take two shields off of the Yagudo who you meet en route.
+      FORINE_DIALOG = 8552; -- Act according to our convictions while fulfilling our promise with the Tarutaru. This is indeed a fitting course for us, the people of glorious San d'Oria.
+     APURURU_DIALOG = 9483; -- There's no way Semih Lafihna will just hand it over for no good reason. Maybe if you try talking with Kupipi...
 
 -- Shop Texts
               JU_KAMJA_DIALOG = ITEM_DELIVERY_DIALOG; -- We can deliver goods to your residence or to the residences of your friends.
@@ -61,16 +69,8 @@ YOU_ACCEPT_THE_MISSION = 6727; -- You have accepted the mission.
    MILLEROVIEUNET_OPEN_DIALOG = 9970; -- Please have a look at these wonderful products from Qufim Island! You won't regret it!
  MILLEROVIEUNET_CLOSED_DIALOG = 9971; -- Now that I've finally learned the language here, I'd like to start my own business. If I could only find a supplier...
 
-
 --Test
 RAKOHBUUMA_OPEN_DIALOG = 7634; -- To expel those who would subvert the law and order of Windurst Woods...
-
--- Quest Dialog
-EMPYREAL_ARROW_LEARNED = 9717; -- You have learned the weapon skill “Empyreal Arrow”!
-   PERIH_VASHAI_DIALOG = 8249; -- You can now become a ranger!
-        CATALIA_DIALOG = 8551; -- While we cannot break our promise to the Windurstians, to ensure justice is served, we would secretly like you to take two shields off of the Yagudo who you meet en route.
-         FORINE_DIALOG = 8552; -- Act according to our convictions while fulfilling our promise with the Tarutaru. This is indeed a fitting course for us, the people of glorious San d'Oria.
-        APURURU_DIALOG = 9483; -- There's no way Semih Lafihna will just hand it over for no good reason. Maybe if you try talking with Kupipi...
 
 -- Harvest Festival
       TRICK_OR_TREAT = 9728; -- Trick or treat...
