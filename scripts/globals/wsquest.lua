@@ -525,8 +525,6 @@ WSQUESTS =
 
 
 function getWsQuestState(quest, player)
-    local questStatus = player:getQuestStatus(quest.logId, quest.questId)
-
     if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED) then
         if (player:hasKeyItem(ANNALS_OF_TRUTH)) then
             return 3 -- Has killed NM and received Annals of Truth ("finish")
@@ -538,7 +536,6 @@ function getWsQuestState(quest, player)
     else
         return 0 -- Quest is available or completed
     end
-
 end
 
 function handleWsQuestTrade(quest, player, trade)
