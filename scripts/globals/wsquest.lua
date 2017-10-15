@@ -523,12 +523,32 @@ WSQUESTS =
 
 };
 
+
+function getWsQuestState(quest, player)
+    local questStatus = player:getQuestStatus(quest.logId, quest.questId)
+
+    if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED) then
+        if (player:hasKeyItem(ANNALS_OF_TRUTH)) then
+            return 3 -- Has killed NM and received Annals of Truth ("finish")
+        elseif (player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH)) then
+            return 2 -- Has turned in completed trial weapon ("cont2")
+        else
+            return 1 -- Has accepted quest ("cont1")
+        end
+    else
+        return 0 -- Quest is available or completed
+    end
+
+end
+
 function handleWsQuestTrade(quest, player, trade)
     local wsPoints = (trade:getItem(0):getWeaponskillPoints());
     --wsPoints = 300;
     --player:PrintToPlayer(string.format("DEBUG: %s WS points.",wsPoints)); -- DEBUG only, remove for deployment    
 
-    if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED and trade:hasItemQty(quest.trialWeaponId,1) and trade:getItemCount() == 1) then
+    if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED 
+            and trade:hasItemQty(quest.trialWeaponId,1) 
+            and trade:getItemCount() == 1) then
         if wsPoints < 300 then
             player:startEvent(quest.eventIds.tradedUnfinishedWeapon);
         else
@@ -598,16 +618,21 @@ function handleWsQuestFinish(quest, player, csid, option)
 end;
 
 function handleQmTrigger(quest, player)
-    if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED
-            and player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH)
-            and not player:hasKeyItem(ANNALS_OF_TRUTH)) then
-        if (player:getVar(killedthething) == 1) then -- TODO: set variable name dynamically
+    if (getWsQuestState(quest, player) == 2) then
+        if (player:getVar(string.format("Killed_%s",string.gsub(quest.wsnmName," ","_"))) == 1) then
             player:addKeyItem(ANNALS_OF_TRUTH);
             player:messageSpecial(KEYITEM_OBTAINED,ANNALS_OF_TRUTH);
         elseif (GetMobAction(quest.wsnmId) == 0) then 
+            player:messageSpecial(OMINOUS_PRESENCE);
             SpawnMob(quest.wsnmId):updateClaim(player);
         end
     else
         player:messageSpecial(NOTHING_OUT_OF_ORDINARY);
     end
 end;
+
+function handleWsnmDeath(quest, player)
+    if (getWsQuestState(quest, player) == 2) then
+        player:setVar(string.format("Killed_%s",string.gsub(quest.wsnmName," ","_")), 1);
+    end
+end
