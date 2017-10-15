@@ -523,18 +523,22 @@ WSQUESTS =
 
 };
 
+WSQUEST_NA     = 0 -- Quest is available or completed
+WSQUEST_CONT1  = 1 -- Player has accepted quest ("cont1")
+WSQUEST_CONT2  = 2 -- Player has turned in completed trial weapon and received Map to Annals ("cont2")
+WSQUEST_FINISH = 3 -- Player has killed NM and received Annals of Truth ("finish")
 
 function getWsQuestState(quest, player)
     if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED) then
         if (player:hasKeyItem(ANNALS_OF_TRUTH)) then
-            return 3 -- Has killed NM and received Annals of Truth ("finish")
+            return WSQUEST_FINISH
         elseif (player:hasKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH)) then
-            return 2 -- Has turned in completed trial weapon ("cont2")
+            return WSQUEST_CONT2
         else
-            return 1 -- Has accepted quest ("cont1")
+            return WSQUEST_CONT1
         end
     else
-        return 0 -- Quest is available or completed
+        return WSQUEST_NA
     end
 end
 
@@ -615,12 +619,12 @@ function handleWsQuestFinish(quest, player, csid, option)
 end;
 
 function handleQmTrigger(quest, player)
-    if (getWsQuestState(quest, player) == 2) then
+    if (getWsQuestState(quest, player) == WSQUEST_CONT2) then
         if (player:getVar(string.format("Killed_%s",string.gsub(quest.wsnmName," ","_"))) == 1) then
             player:addKeyItem(ANNALS_OF_TRUTH);
             player:messageSpecial(KEYITEM_OBTAINED,ANNALS_OF_TRUTH);
         elseif (GetMobAction(quest.wsnmId) == 0) then 
-            player:messageSpecial(OMINOUS_PRESENCE);
+            player:messageSpecial(SENSE_OMINOUS_PRESENCE);
             SpawnMob(quest.wsnmId):updateClaim(player);
         end
     else
@@ -629,7 +633,7 @@ function handleQmTrigger(quest, player)
 end;
 
 function handleWsnmDeath(quest, player)
-    if (getWsQuestState(quest, player) == 2) then
+    if (getWsQuestState(quest, player) == WSQUEST_CONT2) then
         player:setVar(string.format("Killed_%s",string.gsub(quest.wsnmName," ","_")), 1);
     end
 end
