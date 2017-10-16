@@ -2,12 +2,10 @@
 -- Area: Gustav Tunnel
 --  MOB: Baronial Bat
 --   ID: 17645809
+-- Note: Popped by qm1
 -- Involved in Quest: Cloak and Dagger
 -----------------------------------
-package.loaded["scripts/zones/Gustav_Tunnel/TextIDs"] = nil;
------------------------------------
 require("scripts/globals/wsquest");
-require("scripts/zones/Gustav_Tunnel/TextIDs");
 
 -----------------------------------
 -- onMobDeath

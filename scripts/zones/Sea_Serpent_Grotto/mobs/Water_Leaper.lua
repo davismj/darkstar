@@ -2,12 +2,10 @@
 -- Area: Sea Serpent Grotto
 --  MOB: Water Leaper
 --   ID: 17498565
+-- Note: Popped by qm1
 -- Involved in Quest: Methods Create Madness
 -----------------------------------
-package.loaded["scripts/zones/Sea_Serpent_Grotto/TextIDs"] = nil;
------------------------------------
 require("scripts/globals/wsquest");
-require("scripts/zones/Sea_Serpent_Grotto/TextIDs");
 
 -----------------------------------
 -- onMobDeath

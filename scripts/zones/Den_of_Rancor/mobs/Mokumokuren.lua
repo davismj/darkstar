@@ -2,12 +2,10 @@
 -- Area: Den of Rancor
 --  MOB: Mokumokuren
 --   ID: 17433006
+-- Note: Popped by qm2
 -- Involved in Quest: Souls in Shadow
 -----------------------------------
-package.loaded["scripts/zones/Den_of_Rancor/TextIDs"] = nil;
------------------------------------
 require("scripts/globals/wsquest");
-require("scripts/zones/Den_of_Rancor/TextIDs");
 
 -----------------------------------
 -- onMobDeath

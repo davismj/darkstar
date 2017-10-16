@@ -2,12 +2,10 @@
 -- Area: The Sanctuary of Zi'Tah
 --  MOB: Greenman
 --   ID: 17273295
+-- Note: Popped by qm1
 -- Involved in Quest: The Weight Of Your Limits
 -----------------------------------
-package.loaded["scripts/zones/The_Sanctuary_of_ZiTah/TextIDs"] = nil;
------------------------------------
 require("scripts/globals/wsquest");
-require("scripts/zones/The_Sanctuary_of_ZiTah/TextIDs");
 
 -----------------------------------
 -- onMobDeath

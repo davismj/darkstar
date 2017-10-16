@@ -2,12 +2,10 @@
 -- Area: Ro'Maeve
 --  MOB: Eldhrimnir
 --   ID: 17277126
+-- Note: Popped by qm1
 -- Involved in Quest: Orastery Woes
 -----------------------------------
-package.loaded["scripts/zones/RoMaeve/TextIDs"] = nil;
------------------------------------
 require("scripts/globals/wsquest");
-require("scripts/zones/RoMaeve/TextIDs");
 
 -----------------------------------
 -- onMobDeath

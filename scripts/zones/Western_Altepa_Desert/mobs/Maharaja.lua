@@ -2,12 +2,10 @@
 -- Area: Western Altepa Desert
 --  MOB: Maharaja
 --   ID: 17289656
+-- Note: Popped by qm1
 -- Involved in Quest: Inheritance
 -----------------------------------
-package.loaded["scripts/zones/Western_Altepa_Desert/TextIDs"] = nil;
------------------------------------
 require("scripts/globals/wsquest");
-require("scripts/zones/Western_Altepa_Desert/TextIDs");
 
 -----------------------------------
 -- onMobDeath

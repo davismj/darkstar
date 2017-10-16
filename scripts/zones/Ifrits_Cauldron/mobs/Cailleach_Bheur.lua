@@ -2,12 +2,10 @@
 -- Area: Ifrit's Cauldron
 --  MOB: Cailleach Bheur
 --   ID: 17617165
+-- Note: Popped by qm3
 -- Involved in Quest: Blood and Glory
 -----------------------------------
-package.loaded["scripts/zones/Ifrits_Cauldron/TextIDs"] = nil;
------------------------------------
 require("scripts/globals/wsquest");
-require("scripts/zones/Ifrits_Cauldron/TextIDs");
 
 -----------------------------------
 -- onMobDeath
