@@ -192,7 +192,8 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x02AE) then
         player:setVar("COP_Louverance_s_Path",2);
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = EMPYREAN_ARROW_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
 end;

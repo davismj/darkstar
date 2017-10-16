@@ -210,6 +210,7 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x18f) then
         player:setVar("ShantottoCS",0)
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = RETRIBUTION_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 end;

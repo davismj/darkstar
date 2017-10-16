@@ -244,7 +244,8 @@ function onEventFinish(player,csid,option)
             player:completeQuest(OUTLANDS,A_THIEF_IN_NORG);
         end
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = TACHI_KASHA_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
 end;

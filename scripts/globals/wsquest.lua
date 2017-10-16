@@ -1,4 +1,5 @@
 require('scripts/globals/quests');
+require('scripts/globals/keyitems');
 
 WSQUESTS =
 {
@@ -20,7 +21,6 @@ WSQUESTS =
         ['logId'] = BASTOK,
         ['questId'] = THE_WALLS_OF_YOUR_MIND,
         ['fameRegion'] = BASTOK,
-        ['learnedWsTextId'] = ASURAN_FISTS_LEARNED,
         ['wsnmName'] = "Bodach",
         ['wsnmId'] = 17461479,
         ['eventIds'] =
@@ -57,7 +57,6 @@ WSQUESTS =
         ['logId'] = OUTLANDS,
         ['questId'] = CLOAK_AND_DAGGER,
         ['fameRegion'] = KAZHAM,
-        ['learnedWsTextId'] = EVISCERATION_LEARNED,
         ['wsnmName'] = "Baronial Bat",
         ['wsnmId'] = 17645809,
         ['eventIds'] =
@@ -94,7 +93,6 @@ WSQUESTS =
         ['logId'] = SANDORIA,
         ['questId'] = OLD_WOUNDS,
         ['fameRegion'] = SANDORIA,
-        ['learnedWsTextId'] = SAVAGE_BLADE_LEARNED,
         ['wsnmName'] = "Girtablulu",
         ['wsnmId'] = 17629645,
         ['eventIds'] = 
@@ -131,7 +129,6 @@ WSQUESTS =
         ['logId'] = BASTOK,
         ['questId'] = INHERITANCE,
         ['fameRegion'] = BASTOK,
-        ['learnedWsTextId'] = GROUND_STRIKE_LEARNED,
         ['wsnmName'] = "Maharaja",
         ['wsnmId'] = 17289656,
         ['eventIds'] =
@@ -168,7 +165,6 @@ WSQUESTS =
         ['logId'] = JEUNO,
         ['questId'] = AXE_THE_COMPETITION,
         ['fameRegion'] = JEUNO,
-        ['learnedWsTextId'] = DECIMATION_LEARNED,
         ['wsnmName'] = "Yallery Brown",
         ['wsnmId'] = 17428817,
         ['eventIds'] =
@@ -205,7 +201,6 @@ WSQUESTS =
         ['logId'] = BASTOK,
         ['questId'] = THE_WEIGHT_OF_YOUR_LIMITS,
         ['fameRegion'] = BASTOK,
-        ['learnedWsTextId'] = STEEL_CYCLONE_LEARNED,
         ['wsnmName'] = "Greenman",
         ['wsnmId'] = 17273295,
         ['eventIds'] =
@@ -242,7 +237,6 @@ WSQUESTS =
         ['logId'] = SANDORIA,
         ['questId'] = SOULS_IN_SHADOW,
         ['fameRegion'] = SANDORIA,
-        ['learnedWsTextId'] = SPIRAL_HELL_LEARNED,
         ['wsnmName'] = "Mokumokuren",
         ['wsnmId'] = 17433006,
         ['eventIds'] =
@@ -279,7 +273,6 @@ WSQUESTS =
         ['logId'] = SANDORIA,
         ['questId'] = METHODS_CREATE_MADNESS,
         ['fameRegion'] = SANDORIA,
-        ['learnedWsTextId'] = IMPULSE_DRIVE_LEARNED,
         ['wsnmName'] = "Water Leaper",
         ['wsnmId'] = 17498565,
         ['eventIds'] =
@@ -316,7 +309,6 @@ WSQUESTS =
         ['logId'] = OUTLANDS,
         ['questId'] = BUGI_SODEN,
         ['fameRegion'] = NORG,
-        ['learnedWsTextId'] = BLADE_KU_LEARNED,
         ['wsnmName'] = "Megapod Megalops",
         ['wsnmId'] = 17649861,
         ['eventIds'] =
@@ -353,7 +345,6 @@ WSQUESTS =
         ['logId'] = OUTLANDS,
         ['questId'] = THE_POTENTIAL_WITHIN,
         ['fameRegion'] = NORG,
-        ['learnedWsTextId'] = TACHI_KASHA_LEARNED,
         ['wsnmName'] = "Kettenkaefer",
         ['wsnmId'] = 17490235,
         ['eventIds'] =
@@ -390,7 +381,6 @@ WSQUESTS =
         ['logId'] = WINDURST,
         ['questId'] = ORASTERY_WOES,
         ['fameRegion'] = WINDURST,
-        ['learnedWsTextId'] = BLACK_HALO_LEARNED,
         ['wsnmName'] = "Eldhrimnir",
         ['wsnmId'] = 17277126,
         ['eventIds'] =
@@ -427,7 +417,6 @@ WSQUESTS =
         ['logId'] = WINDURST,
         ['questId'] = BLOOD_AND_GLORY,
         ['fameRegion'] = WINDURST,
-        ['learnedWsTextId'] = RETRIBUTION_LEARNED,
         ['wsnmName'] = "Cailleach Bheur",
         ['wsnmId'] = 17617165,
         ['eventIds'] =
@@ -464,7 +453,6 @@ WSQUESTS =
         ['logId'] = WINDURST,
         ['questId'] = FROM_SAPLINGS_GROW,
         ['fameRegion'] = WINDURST,
-        ['learnedWsTextId'] = EMPYREAN_ARROW_LEARNED,
         ['wsnmName'] = "Stolas",
         ['wsnmId'] = 17240424,
         ['eventIds'] =
@@ -501,7 +489,6 @@ WSQUESTS =
         ['logId'] = BASTOK,
         ['questId'] = SHOOT_FIRST_ASK_QUESTIONS_LATER,
         ['fameRegion'] = BASTOK,
-        ['learnedWsTextId'] = DETONATOR_LEARNED,
         ['wsnmName'] = "Beet Leafhopper",
         ['wsnmId'] = 17404338,
         ['eventIds'] =
@@ -545,7 +532,7 @@ end
 function handleWsQuestTrade(quest, player, trade)
     local wsPoints = (trade:getItem(0):getWeaponskillPoints());
     --wsPoints = 300;
-    --player:PrintToPlayer(string.format("DEBUG: %s WS points.",wsPoints)); -- DEBUG only, remove for deployment    
+    --player:PrintToPlayer(string.format("DEBUG: %s WS points.",wsPoints));
 
     if (player:getQuestStatus(quest.logId, quest.questId) == QUEST_ACCEPTED 
             and trade:hasItemQty(quest.trialWeaponId,1) 
@@ -578,7 +565,7 @@ function handleWsQuestTrigger(quest, player)
     return nil;
 end;
 
-function handleWsQuestFinish(quest, player, csid, option)
+function handleWsQuestFinish(quest, player, csid, option, learnedId)
     if (csid == quest.eventIds.start and ((quest.options.acceptStart == nil) or (option == quest.options.acceptStart))) then -- WS Quest start
         if (player:getFreeSlotsCount() < 1) then
             player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,quest.trialWeaponId);
@@ -609,7 +596,7 @@ function handleWsQuestFinish(quest, player, csid, option)
         player:messageSpecial(KEYITEM_OBTAINED,MAP_TO_THE_ANNALS_OF_TRUTH);
     elseif (csid == quest.eventIds.finish) then -- WS Quest completed
         player:addLearnedWeaponskill(quest.wsUnlockId);
-        player:messageSpecial(quest.learnedWsTextId);
+        player:messageSpecial(learnedId);
         player:addFame(quest.fameRegion,WSNM_FAME);
         player:delKeyItem(MAP_TO_THE_ANNALS_OF_TRUTH);
         player:delKeyItem(ANNALS_OF_TRUTH);

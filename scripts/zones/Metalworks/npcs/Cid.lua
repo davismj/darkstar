@@ -247,7 +247,8 @@ function onEventFinish(player,csid,option)
             player:messageSpecial(ITEM_CANNOT_BE_OBTAINED,13570);
         end
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = DETONATOR_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
      -- complete chapter "tree path"
      if (csid == 0x0355 or csid == 0x0356 or csid == 0x0357) then

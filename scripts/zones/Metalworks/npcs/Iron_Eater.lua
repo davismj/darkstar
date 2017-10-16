@@ -109,6 +109,7 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x03BC) then
         player:setVar("FiresOfDiscProg",2);
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = STEEL_CYCLONE_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 end;

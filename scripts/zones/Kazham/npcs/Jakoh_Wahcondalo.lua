@@ -67,7 +67,8 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x0109) then
         player:setVar("MissionStatus",3);
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = EVISCERATION_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
 end;

@@ -111,7 +111,8 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x0089) then
         player:setVar("trueWillCS",1);
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = BLADE_KU_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
 end;

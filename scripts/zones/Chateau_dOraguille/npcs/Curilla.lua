@@ -123,7 +123,8 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x0232) then
         player:setMaskBit(player:getVar("WildcatSandy"),"WildcatSandy",15,true);
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = SAVAGE_BLADE_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
 end;

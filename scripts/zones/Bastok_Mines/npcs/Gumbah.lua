@@ -75,6 +75,7 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x00b1) then
         player:setVar("[B7-2]Werei", 1);
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = GROUND_STRIKE_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 end;

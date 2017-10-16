@@ -1,7 +1,7 @@
 -----------------------------------
 -- Area: Southern San d'Oria
 -- NPC:  Balasiel
--- Starts and Finishes: A Squire's Test, A Squire's Test II, A Knight's Test
+-- Starts and Finishes: A Squire's Test, A Squire's Test II, A Knight's Test, Methods Create Madness
 -- @zone 230
 -- !pos -136 -11 64
 -------------------------------------
@@ -11,7 +11,10 @@ require("scripts/globals/settings");
 require("scripts/globals/titles");
 require("scripts/globals/keyitems");
 require("scripts/globals/quests");
+require("scripts/globals/wsquest");
 require("scripts/zones/Southern_San_dOria/TextIDs");
+
+WSQUEST = WSQUESTS.methodsCreateMadness;
 
 -----------------------------------
 -- onTrade Action
@@ -23,6 +26,8 @@ function onTrade(player,npc,trade)
         if (trade:hasItemQty(940,1) and trade:getItemCount() == 1) then
             player:startEvent(0x0269);
         end
+    else
+        handleWsQuestTrade(WSQUEST, player, trade);
     end
 
 end;
@@ -37,9 +42,12 @@ function onTrigger(player,npc)
     local ASquiresTest = player:getQuestStatus(SANDORIA, A_SQUIRE_S_TEST);
     local ASquiresTestII = player:getQuestStatus(SANDORIA,A_SQUIRE_S_TEST_II);
     local AKnightsTest = player:getQuestStatus(SANDORIA, A_KNIGHT_S_TEST);
+    local wsQuestEvent = handleWsQuestTrigger(WSQUEST, player); -- Impulse Drive
 
     if (player:getQuestStatus(SANDORIA,KNIGHT_STALKER) == QUEST_ACCEPTED and player:getVar("KnightStalker_Progress") == 2) then
         player:startEvent(63); -- DRG AF3 cutscene, doesn't appear to have a follow up.
+    elseif (wsQuestEvent ~= nil) then
+        player:startEvent(wsQuestEvent);
     elseif (LvL < 7) then
         player:startEvent(0x029c);
     elseif (LvL >= 7 and ASquiresTest ~= QUEST_COMPLETED) then
@@ -164,7 +172,11 @@ function onEventFinish(player,csid,option)
         end
     elseif (csid == 63) then
         player:setVar("KnightStalker_Progress",3);
+    else
+        local learnedId = IMPULSE_DRIVE_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
+
 
 end;
 --    player:startEvent(0x7fb2)     -- starlight celebration

@@ -141,7 +141,8 @@ function onEventFinish(player,csid,option,npc)
             player:completeQuest(SANDORIA,THE_RUMOR);
         end
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = SPIRAL_HELL_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
     npc:wait(0);

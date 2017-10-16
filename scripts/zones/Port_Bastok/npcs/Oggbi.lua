@@ -100,7 +100,8 @@ function onEventFinish(player,csid,option)
             player:completeQuest(BASTOK,THE_FIRST_MEETING);
         end
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = ASURAN_FISTS_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
 end;

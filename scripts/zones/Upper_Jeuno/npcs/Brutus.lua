@@ -194,6 +194,7 @@ function onEventFinish(player,csid,option)
             player:completeQuest(JEUNO,SCATTERED_INTO_SHADOW);
         end
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = DECIMATION_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 end;

@@ -112,6 +112,7 @@ function onEventFinish(player,csid,option)
         player:addFame(WINDURST,150);
         player:completeQuest(WINDURST,MAKING_AMENS);
     else
-        handleWsQuestFinish(WSQUEST, player, csid, option);
+        local learnedId = BLACK_HALO_LEARNED;
+        handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 end;
