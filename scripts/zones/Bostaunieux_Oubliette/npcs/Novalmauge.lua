@@ -18,7 +18,6 @@ require("scripts/zones/Bostaunieux_Oubliette/TextIDs");
 
 WSQUEST = WSQUESTS.soulsInShadow;
 
--- TODO This pathing is throwing a ton of navmesh errors to console, needs some love and attention.
 local path = {
 41.169430, -24.000000, 19.860674,
 42.256676, -24.000000, 19.885197,

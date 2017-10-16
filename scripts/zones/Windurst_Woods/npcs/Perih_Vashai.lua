@@ -6,13 +6,13 @@
 -----------------------------------
 package.loaded["scripts/zones/Windurst_Woods/TextIDs"] = nil;
 -----------------------------------
-require("scripts/zones/Windurst_Woods/TextIDs");
 require("scripts/globals/settings");
 require("scripts/globals/keyitems");
 require("scripts/globals/missions");
 require("scripts/globals/titles");
 require("scripts/globals/quests");
 require("scripts/globals/wsquest");
+require("scripts/zones/Windurst_Woods/TextIDs");
 
 WSQUEST = WSQUESTS.fromSaplingsGrow;
 
