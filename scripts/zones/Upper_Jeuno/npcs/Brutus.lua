@@ -109,7 +109,7 @@ function onTrigger(player,npc)
     elseif (player:getQuestStatus(JEUNO,PATH_OF_THE_BEASTMASTER) == QUEST_COMPLETED) then
         player:startEvent(0x0014);
     else
-        player:startEvent(0x0042, mJob);
+        player:startEvent(0x0042, mLvl);
     end
 end;
 
