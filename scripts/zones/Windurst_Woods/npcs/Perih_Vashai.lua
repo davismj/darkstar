@@ -69,7 +69,7 @@ function onTrigger(player,npc)
         elseif (player:getVar("TheFangedOne_Event") == 1) then
             player:startEvent(0x0166);
         end
-        
+
     -- From Saplings Grow
     elseif (wsQuestEvent ~= nil) then
         player:startEvent(wsQuestEvent);
@@ -192,7 +192,7 @@ function onEventFinish(player,csid,option)
     elseif (csid == 0x02AE) then
         player:setVar("COP_Louverance_s_Path",2);
     else
-        local learnedId = EMPYREAN_ARROW_LEARNED;
+        local learnedId = EMPYREAL_ARROW_LEARNED;
         handleWsQuestFinish(WSQUEST, player, csid, option, learnedId);
     end
 
