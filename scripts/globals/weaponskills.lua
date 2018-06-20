@@ -37,15 +37,12 @@ function doPhysicalWeaponskill(attacker, target, wsID, tp, primary, action, taCh
     local weaponType = attacker:getWeaponSkillType(0)
 
     if (weaponType == dsp.skill.HAND_TO_HAND or weaponType == dsp.skill.NONE) then
-        local h2hSkill = ((attacker:getSkillLevel(1) * 0.11) + 3)
-
+        local h2hDmg = math.floor(attacker:getSkillLevel(1) * 0.11)
         if (params.kick and attacker:hasStatusEffect(dsp.effect.FOOTWORK)) then
-            weaponDamage = attacker:getMod(dsp.mod.KICK_DMG) + 18; -- footwork formerly added 18 base dmg to all kicks, its effect on weaponskills was unchanged by update
+            weaponDamage = 23 + attacker:getMod(dsp.mod.KICK_DMG) + h2hDmg
         else
-            weaponDamage = utils.clamp(attacker:getWeaponDmg()-3, 0)
+            weaponDamage = 3 + weaponDamage + h2hDmg
         end
-
-        weaponDamage = weaponDamage + h2hSkill
     end
 
     local base = weaponDamage + fstr +
@@ -102,7 +99,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, tp, primary, action, taCh
 
         -- Handle Fencer
         local mainEquip = attacker:getStorageItem(0, 0, dsp.slot.MAIN)
-        
+
         if mainEquip and not mainEquip:isTwoHanded() and not mainEquip:isHandToHand() then
             local subEquip = attacker:getStorageItem(0, 0, dsp.slot.SUB)
             if subEquip == nil or subEquip:getSkillType() == dsp.skill.NONE or subEquip:isShield() then
@@ -167,7 +164,7 @@ function doPhysicalWeaponskill(attacker, target, wsID, tp, primary, action, taCh
 
     if not multiHitfTP then dmg = base end
 
-    if ((attacker:getOffhandDmg() ~= 0) and (attacker:getOffhandDmg() > 0 or weaponType==dsp.skill.HAND_TO_HAND)) then
+    if (attacker:getOffhandDmg() > 0 or weaponType == dsp.skill.HAND_TO_HAND) then
 
         local chance = math.random()
         if ((chance<=hitrate or math.random() < attacker:getMod(dsp.mod.ZANSHIN)/100 or isSneakValid)
