@@ -1807,6 +1807,8 @@ namespace battleutils
                     case DAMAGE_SLASHING: damage = (damage * (PDefender->getMod(Mod::SLASHRES))) / 1000; break;
                     case DAMAGE_IMPACT:   damage = (damage * (PDefender->getMod(Mod::IMPACTRES))) / 1000; break;
                     case DAMAGE_HTH:      damage = (damage * (PDefender->getMod(Mod::HTHRES))) / 1000; break;
+                    default:
+                        break;
                 }
             }
             else
@@ -1981,7 +1983,7 @@ namespace battleutils
                 if (PAttacker->m_Weapons[slot]->getSkillType() == SKILL_HAND_TO_HAND)
                     ratio = 2.0f;
 
-                baseTp = (int16)(CalculateBaseTP((delay * 60) / 1000) / ratio);
+                baseTp = CalculateBaseTP((int16)(delay * 60.0f / 1000.0f / ratio));
             }
 
 
@@ -3514,7 +3516,16 @@ namespace battleutils
         return damage;
     }
 
-
+    uint16 doConsumeManaEffect(CCharEntity* m_PChar, uint32 damage)
+    {
+        if (m_PChar->StatusEffectContainer->HasStatusEffect(EFFECT_CONSUME_MANA))
+        {
+            damage += (uint32)(floor(m_PChar->health.mp / 10));
+            m_PChar->health.mp = 0;
+            m_PChar->StatusEffectContainer->DelStatusEffect(EFFECT_CONSUME_MANA);
+        }
+        return damage;
+    }
 
     /************************************************************************
     *                                                                       *
@@ -4231,7 +4242,7 @@ namespace battleutils
 
     int32 HandleSteamJacket(CBattleEntity* PDefender, int32 damage, int16 damageType)
     {
-        uint32 steamJacketType = PDefender->GetLocalVar("steam_jacket_type");
+        auto steamJacketType = (int16)PDefender->GetLocalVar("steam_jacket_type");
         int16 steamJacketHits = (int16)PDefender->GetLocalVar("steam_jacket_hits");
 
         if (steamJacketType != damageType)
